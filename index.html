@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Camada de Fundo Otimizada (Com letras maiúsculas para o GitHub) */
+        /* Camada de Fundo Otimizada */
         .fundo-fallback {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -62,6 +62,7 @@
             width: 100px;
             height: auto;
             display: block;
+            margin: 0 auto;
         }
 
         h1 { color: #2b2b2b; font-size: 26px; margin: 5px 0 2px 0; font-weight: bold; }
@@ -125,147 +126,4 @@
         .botoes-grupo {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        .botoes-grupo button {
-            border: 3px solid #2c2013;
-            border-radius: 8px;
-            padding: 8px 5px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #2c2013;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: inset -2px -4px 0px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
-        }
-        .botoes-grupo button:active { transform: scale(0.97); }
-        .botoes-grupo button:disabled { opacity: 0.6; cursor: not-allowed; }
-        .botoes-grupo button img {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-        }
-
-        .btn-rapidas { background-color: #90a96e; }
-        .btn-banquetes { background-color: #dca052; }
-        .btn-sobremesas { background-color: #e59994; }
-
-        /* 🎲 Caixa de Instrução */
-        .roleta-box {
-            background-color: #fffdf6;
-            border: 2px dashed #a49a83;
-            border-radius: 6px;
-            padding: 20px;
-            font-size: 16px;
-            color: #444;
-            margin-bottom: 20px;
-        }
-        .hidden { display: none; }
-
-        /* 🎰 Resultado do Sorteio */
-        .box-resultado {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #ebdcb9;
-            animation: fadeIn 0.4s ease-out;
-        }
-        .tag-categoria {
-            display: inline-block;
-            background-color: #e4d5b1;
-            border: 1px solid #bdae8c;
-            padding: 3px 10px;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 4px;
-            color: #555;
-            margin-bottom: 8px;
-        }
-        .box-resultado h2 { margin: 5px 0 15px 0; }
-        #link-receita { color: #0066cc; font-size: 18px; text-decoration: underline; }
-        
-        .btn-favoritar {
-            background-color: #d2b48c; border: 2px solid #5c4033; color: #4a2f13;
-            padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: bold;
-            cursor: pointer; box-shadow: inset -1px -3px 0px rgba(0,0,0,0.1);
-        }
-        .btn-favoritar:hover { background-color: #c1a37c; }
-
-        /* 🎵 Player de Música */
-        .spotify-container {
-            margin-top: 25px;
-            text-align: right;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-
-<div class="fundo-fallback">
-    <img src="FRENTE.JPG" alt="Fundo">
-</div>
-
-<div class="container">
-    
-    <div class="topo-decoracao">
-        <span class="ramo-pixel">🌿</span>
-        <div class="logo-casal">
-            <img src="FRENTE.JPG" alt="Logo Casal">
-        </div>
-        <span class="ramo-pixel">🌿</span>
-    </div>
-
-    <h1>Cardápio meu bem i eu</h1>
-    <div class="subtitulo">o que vamos cozinhar esse mês?</div>
-
-    <div id="painel-favoritos" class="secao-favoritos">
-        <img src="5.PNG" class="coracao-decorativo" alt="Coração Pixel">
-        <h3>❤️ Nossas Receitas Favoritas:</h3>
-        <ul id="lista-favoritos" class="lista-favoritos"></ul>
-    </div>
-
-    <div class="botoes-grupo">
-        <button class="btn-rapidas" onclick="sortearPorCategoria('rapidas')">
-            <img src="FRENTE%20(3).JPG" alt="Frigideira">
-            jantar vapt-vupt
-        </button>
-        
-        <button class="btn-banquetes" onclick="sortearPorCategoria('banquetes')">
-            <img src="FRENTE%20(2).JPG" alt="Faca">
-            banquete
-        </button>
-        
-        <button class="btn-sobremesas" onclick="sortearPorCategoria('sobremesas')">
-            <img src="FRENTE%20(4).JPG" alt="Fouet">
-            sobremesas
-        </button>
-    </div>
-
-    <div id="roleta" class="roleta-box">escolha uma categoria acima!❤️</div>
-
-    <div id="resultado-container" class="box-resultado hidden">
-        <span id="rec-tag" class="tag-categoria">category tag</span>
-        <h2><a id="link-receita" href="#" target="_blank" rel="noopener noreferrer">Nome de receita · hyperlink</a></h2>
-        <button id="btn-fav-acao" class="btn-favoritar">⭐ Salvar nos Favoritos</button>
-    </div>
-
-    <div class="spotify-container">
-        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/19YpCH7T21f0OolWJbby6p?utm_source=generator&theme=0" width="220" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-</div>
-
-<script>
-const receitas = [
-  { id: 1, nome: "Shakshuka (Ovos no Tomate)", categoria: "rapidas", tag: "Prático e rápido", url: "https://www.lecreuset.com.br/shakshuka/SKI_084.html" },
-  { id: 2, nome: "Camembert Folhado com Mel", categoria: "rapidas", tag: "Petiscar e fofocar", url: "https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html" },
-  { id: 3, nome: "Creme de Abóbora com Gengibre", categoria: "rapidas", tag: "Dias frios", url: "https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html" },
-  { id: 4, nome: "Boeuf Bourguignon Tradicional", categoria: "banquetes", tag: "Date chique com vinho", url: "https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html" },
-  { id: 5, nome: "Ragu de Costela com Polenta", categoria: "banquetes", tag: "Almoço de domingo", url: "
+            gap: 1
