@@ -20,7 +20,7 @@
             overflow-x: hidden;
         }
 
-        /* Camada de Fundo Otimizada */
+        /* Camada de Fundo Otimizada (Com letras maiúsculas para o GitHub) */
         .fundo-fallback {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -210,7 +210,7 @@
 <body>
 
 <div class="fundo-fallback">
-    <img src="FRENTE.jpg" alt="Fundo">
+    <img src="FRENTE.JPG" alt="Fundo">
 </div>
 
 <div class="container">
@@ -218,7 +218,7 @@
     <div class="topo-decoracao">
         <span class="ramo-pixel">🌿</span>
         <div class="logo-casal">
-            <img src="FRENTE.jpg" alt="Logo Casal">
+            <img src="FRENTE.JPG" alt="Logo Casal">
         </div>
         <span class="ramo-pixel">🌿</span>
     </div>
@@ -227,24 +227,24 @@
     <div class="subtitulo">o que vamos cozinhar esse mês?</div>
 
     <div id="painel-favoritos" class="secao-favoritos">
-        <img src="5.png" class="coracao-decorativo" alt="Coração Pixel">
+        <img src="5.PNG" class="coracao-decorativo" alt="Coração Pixel">
         <h3>❤️ Nossas Receitas Favoritas:</h3>
         <ul id="lista-favoritos" class="lista-favoritos"></ul>
     </div>
 
     <div class="botoes-grupo">
         <button class="btn-rapidas" onclick="sortearPorCategoria('rapidas')">
-            <img src="FRENTE%20(3).jpg" alt="Frigideira">
+            <img src="FRENTE%20(3).JPG" alt="Frigideira">
             jantar vapt-vupt
         </button>
         
         <button class="btn-banquetes" onclick="sortearPorCategoria('banquetes')">
-            <img src="FRENTE%20(2).jpg" alt="Faca">
+            <img src="FRENTE%20(2).JPG" alt="Faca">
             banquete
         </button>
         
         <button class="btn-sobremesas" onclick="sortearPorCategoria('sobremesas')">
-            <img src="FRENTE%20(4).jpg" alt="Fouet">
+            <img src="FRENTE%20(4).JPG" alt="Fouet">
             sobremesas
         </button>
     </div>
@@ -268,112 +268,4 @@ const receitas = [
   { id: 2, nome: "Camembert Folhado com Mel", categoria: "rapidas", tag: "Petiscar e fofocar", url: "https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html" },
   { id: 3, nome: "Creme de Abóbora com Gengibre", categoria: "rapidas", tag: "Dias frios", url: "https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html" },
   { id: 4, nome: "Boeuf Bourguignon Tradicional", categoria: "banquetes", tag: "Date chique com vinho", url: "https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html" },
-  { id: 5, nome: "Ragu de Costela com Polenta", categoria: "banquetes", tag: "Almoço de domingo", url: "https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html" },
-  { id: 6, nome: "Risoto de Alho-Poró com Parmesão", categoria: "banquetes", tag: "Noite italiana", url: "https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html" },
-  { id: 7, nome: "Arroz de Braga", categoria: "banquetes", tag: "Uma só panela", url: "https://www.lecreuset.com.br/refeicoes-principais/arroz-de-braga/LCO-21059.html" },
-  { id: 8, nome: "Picadinho de Carne Tradicional", categoria: "banquetes", tag: "Especial de casa", url: "https://www.lecreuset.com.br/refeicoes-principais/picadinho-le-creuset/LCO-21107.html" },
-  { id: 9, nome: "Bolo de Cenoura com Brigadeiro", categoria: "sobremesas", tag: "Cafézinho da tarde", url: "https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html" },
-  { id: 10, nome: "Tarte Tatin de Maçã Clássica", categoria: "sobremesas", tag: "Sobremesa de Chef", url: "https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html" },
-  { id: 11, nome: "Grand Gateau de Chocolate", categoria: "sobremesas", tag: "Açúcar na veia!", url: "https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html" }
-];
-
-let receitasSorteadas = [];
-let favoritos = JSON.parse(localStorage.getItem('favoritos_casal')) || [];
-let receitaAtual = null;
-
-const roleta = document.getElementById('roleta');
-const resultadoContainer = document.getElementById('resultado-container');
-const linkReceita = document.getElementById('link-receita');
-const recTag = document.getElementById('rec-tag');
-const btnFavAcao = document.getElementById('btn-fav-acao');
-
-atualizarPainelFavoritos();
-
-function sortearPorCategoria(categoriaSelecionada) {
-  let receitasFiltradas = receitas.filter(r => r.categoria === categoriaSelecionada && !receitasSorteadas.includes(r.id));
-  
-  if (receitasFiltradas.length === 0) {
-    alert("Todas as receitas dessa categoria já saíram! Resetando histórico.");
-    receitasSorteadas = receitasSorteadas.filter(id => !receitas.find(r => r.id === id && r.categoria === categoriaSelecionada));
-    receitasFiltradas = receitas.filter(r => r.categoria === categoriaSelecionada);
-  }
-  
-  document.querySelectorAll('.botoes-grupo button').forEach(b => b.disabled = true);
-  resultadoContainer.classList.add('hidden');
-  
-  let voltas = 0;
-  const intervalo = setInterval(() => {
-    const aleatoria = receitasFiltradas[Math.floor(Math.random() * receitasFiltradas.length)];
-    roleta.textContent = "🎲 " + aleatoria.nome;
-    voltas++;
-    
-    if (voltas > 12) {
-      clearInterval(intervalo);
-      
-      receitaAtual = receitasFiltradas[Math.floor(Math.random() * receitasFiltradas.length)];
-      roleta.textContent = "✨ O destino escolheu! ✨";
-      receitasSorteadas.push(receitaAtual.id);
-      
-      linkReceita.textContent = receitaAtual.nome;
-      linkReceita.href = receitaAtual.url;
-      recTag.textContent = receitaAtual.tag;
-      
-      if(favoritos.some(f => f.id === receitaAtual.id)) {
-        btnFavAcao.textContent = "✓ Já está nos Favoritos";
-        btnFavAcao.disabled = true;
-      } else {
-        btnFavAcao.textContent = "⭐ Salvar nos Favoritos";
-        btnFavAcao.disabled = false;
-      }
-      
-      resultadoContainer.classList.remove('hidden');
-      document.querySelectorAll('.botoes-grupo button').forEach(b => b.disabled = false);
-    }
-  }, 110);
-}
-
-btnFavAcao.addEventListener('click', () => {
-  if (receitaAtual && !favoritos.some(f => f.id === receitaAtual.id)) {
-    favoritos.push({ id: receitaAtual.id, nome: receitaAtual.nome, url: receitaAtual.url });
-    localStorage.setItem('favoritos_casal', JSON.stringify(favoritos));
-    atualizarPainelFavoritos();
-    btnFavAcao.textContent = "✓ Adicionado!";
-    btnFavAcao.disabled = true;
-  }
-});
-
-function removerFavorito(id) {
-  favoritos = favoritos.filter(f => f.id !== id);
-  localStorage.setItem('favoritos_casal', JSON.stringify(favoritos));
-  atualizarPainelFavoritos();
-  if (receitaAtual && receitaAtual.id === id) {
-    btnFavAcao.textContent = "⭐ Salvar nos Favoritos";
-    btnFavAcao.disabled = false;
-  }
-}
-
-function atualizarPainelFavoritos() {
-  const lista = document.getElementById('lista-favoritos');
-  lista.innerHTML = "";
-  
-  if (favoritos.length === 0) {
-    lista.innerHTML = `
-      <li class="fav-item"><a href="#">Exemplo: Batata Rústica</a><button class="btn-remover-fav" disabled>×</button></li>
-      <li class="fav-item"><a href="#">Exemplo: Panqueca Doce</a><button class="btn-remover-fav" disabled>×</button></li>
-    `;
-  } else {
-    favoritos.forEach(fav => {
-      const li = document.createElement('li');
-      li.className = "fav-item";
-      li.innerHTML = `
-        <a href="${fav.url}" target="_blank" rel="noopener noreferrer">${fav.nome}</a>
-        <button class="btn-remover-fav" onclick="removerFavorito(${fav.id})">×</button>
-      `;
-      lista.appendChild(li);
-    });
-  }
-}
-</script>
-
-</body>
-</html>
+  { id: 5, nome: "Ragu de Costela com Polenta", categoria: "banquetes", tag: "Almoço de domingo", url: "
