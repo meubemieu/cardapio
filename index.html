@@ -12,11 +12,24 @@
 body {
     margin:0;
     font-family:'VT323', monospace;
-    background:#e9dfc3;
     display:flex;
     justify-content:center;
     align-items:center;
     min-height:100vh;
+    position:relative;
+}
+
+/* FUNDO COM SUA IMAGEM */
+body::before {
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:url("logo.png") center/cover no-repeat;
+    filter: blur(6px) brightness(0.7);
+    z-index:-1;
 }
 
 img { image-rendering: pixelated; }
@@ -27,16 +40,17 @@ img { image-rendering: pixelated; }
     box-shadow:
         inset -4px -4px 0 #d8c79a,
         inset 4px 4px 0 #fff8e5,
-        0 6px 0 #3b2f1c;
+        0 6px 0 #3b2f1c,
+        0 12px 0 #2a1f12;
     padding:20px;
     width:720px;
     text-align:center;
     position:relative;
 }
 
-/* LOGO */
+/* LOGO MAIOR */
 .logo {
-    width:120px;
+    width:200px;
     margin-bottom:10px;
 }
 
@@ -45,7 +59,14 @@ img { image-rendering: pixelated; }
     position:absolute;
     left:-40px;
     top:30px;
-    width:50px;
+    width:55px;
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform:scale(1); }
+    50% { transform:scale(1.15); }
+    100% { transform:scale(1); }
 }
 
 /* FAVORITOS */
@@ -60,10 +81,6 @@ img { image-rendering: pixelated; }
 .favs li {
     display:flex;
     justify-content:space-between;
-}
-
-.favs button {
-    font-size:12px;
 }
 
 /* BOTÕES */
@@ -101,6 +118,18 @@ button:active {
     position:relative;
 }
 
+.slot-window::before {
+    content:"";
+    position:absolute;
+    top:50%;
+    left:0;
+    right:0;
+    height:80px;
+    transform:translateY(-50%);
+    border-top:3px solid #3b2f1c;
+    border-bottom:3px solid #3b2f1c;
+}
+
 .slot-track {
     position:absolute;
     width:100%;
@@ -112,11 +141,23 @@ button:active {
     align-items:center;
     justify-content:center;
     font-size:22px;
+    opacity:0.5;
+}
+
+.slot-item.active {
+    opacity:1;
+    transform:scale(1.1);
 }
 
 /* RESULTADO */
 .resultado {
     margin-top:15px;
+    animation:pop 0.4s ease;
+}
+
+@keyframes pop {
+    0% { transform:scale(0.8); opacity:0; }
+    100% { transform:scale(1); }
 }
 </style>
 </head>
@@ -154,22 +195,12 @@ button:active {
 
 <script>
 
-// RECEITAS
 const receitas = [
 {nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
-{nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
-{nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
-
-{nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
 {nome:"Risoto",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
-{nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
-
-{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
-{nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
-{nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
+{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"}
 ];
 
-// FAVORITOS
 let favoritos = JSON.parse(localStorage.getItem("fav")) || [];
 
 function salvar(nome,url){
@@ -199,7 +230,6 @@ function renderFav(){
 
 renderFav();
 
-// SLOT MACHINE
 function sortear(cat){
 
     document.getElementById("click").play();
@@ -231,6 +261,8 @@ function sortear(cat){
 
             track.style.transition="transform 0.5s ease-out";
             track.style.transform=`translateY(-${index*80}px)`;
+
+            track.children[index].classList.add("active");
 
             document.getElementById("win").play();
 
