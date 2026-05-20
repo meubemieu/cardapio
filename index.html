@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio meu bem i eu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&display=swap" rel="stylesheet">
     <style>
         /* 🎨 Fundo Estilo Stardew Valley */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Comfortaa', 'Segoe UI', sans-serif;
             margin: 0;
             padding: 20px;
             min-height: 100vh;
@@ -30,17 +31,17 @@
         .fundo-fallback img {
             width: 100%; height: 100%;
             object-fit: cover;
-            opacity: 0.25;
-            filter: blur(4px);
+            opacity: 0.35; /* Ajustado para dar destaque ao painel, igual à imagem */
         }
 
-        /* 📦 O Painel Central */
+        /* 📦 O Painel Central (Estilo Diário/Menu do Jogo) */
         .container {
-            background-color: #fffdf6;
-            border: 4px solid #81984a;
-            border-radius: 12px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-            max-width: 580px;
+            background-color: #fffae8;
+            border: 4px solid #788a42; /* Borda verde musgo clássica */
+            outline: 2px solid #2c2013; /* Linha fina externa */
+            border-radius: 4px; /* Menos arredondado para parecer pixel art */
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+            max-width: 680px;
             width: 100%;
             padding: 25px;
             text-align: center;
@@ -49,37 +50,45 @@
             z-index: 2;
         }
 
+        /* Molduras decorativas nas quinas */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #dfd4b4;
+            pointer-events: none;
+        }
+
         .topo-decoracao {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 5px;
+            gap: 15px;
+            margin-bottom: 10px;
         }
-        .ramo-pixel { font-size: 24px; color: #bfa17a; }
         
         .logo-casal img {
-            width: 100px;
+            width: 140px;
             height: auto;
             display: inline-block;
         }
 
-        h1 { color: #2b2b2b; font-size: 26px; margin: 5px 0 2px 0; font-weight: bold; }
-        .subtitulo { color: #555; font-size: 14px; margin: 0 0 20px 0; }
+        h1 { color: #1a1a1a; font-size: 28px; margin: 5px 0 2px 0; font-weight: bold; }
+        .subtitulo { color: #444; font-size: 15px; margin: 0 0 20px 0; font-style: italic; }
 
         /* ❤️ Seção de Receitas Favoritas */
         .secao-favoritos {
-            background-color: #f6ebd2;
-            border: 2px solid #d4c5a1;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
+            background-color: #f3e6c4;
+            border: 2px solid #c9b996;
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
             text-align: left;
             position: relative;
         }
         .secao-favoritos h3 {
-            margin: 0 0 12px 0;
-            font-size: 15px;
+            margin: 0 0 15px 0;
+            font-size: 16px;
             color: #2b2b2b;
             display: flex;
             align-items: center;
@@ -87,20 +96,20 @@
             gap: 6px;
         }
 
+        /* Balão de Coração Pixelizado */
         .coracao-decorativo {
             position: absolute;
-            left: -20px;
-            top: -20px;
+            left: -25px;
+            top: 20px;
             width: 45px;
             height: 45px;
             object-fit: contain;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.15));
         }
 
         .lista-favoritos {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 12px;
             margin: 0;
             padding: 0;
             list-style: none;
@@ -109,61 +118,89 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 13px;
+            font-size: 14px;
+            color: #333;
         }
-        .fav-item a { color: #333; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        /* Marcador de bolinha customizado */
+        .fav-item::before {
+            content: "•";
+            color: #2c2013;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .fav-item a { 
+            color: #2c2013; 
+            text-decoration: none; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap;
+            flex-grow: 1;
+        }
         .fav-item a:hover { text-decoration: underline; }
+        
+        /* Botão Fechar quadrado marrom da imagem */
         .btn-remover-fav {
-            background: #b5a484; border: 1px solid #7a6e56; color: white;
-            border-radius: 3px; cursor: pointer; padding: 0px 5px; font-size: 11px;
+            background: #b1936a; 
+            border: 2px solid #2c2013; 
+            color: #2c2013;
+            font-weight: bold;
+            border-radius: 4px; 
+            cursor: pointer; 
+            padding: 2px 6px; 
+            font-size: 12px;
+            box-shadow: inset -1px -2px 0px rgba(0,0,0,0.2);
+            margin-left: 8px;
         }
+        .btn-remover-fav:hover { background: #9e7f56; }
 
-        /* 🍳 Botões das Categorias */
+        /* 🍳 Botões das Categorias Estilo Madeira */
         .botoes-grupo {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
+            gap: 15px;
             margin-bottom: 25px;
         }
         .botoes-grupo button {
-            border: 3px solid #2c2013;
-            border-radius: 8px;
-            padding: 8px 5px;
-            font-size: 14px;
+            border: 3px solid #000000;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 15px;
             font-weight: bold;
-            color: #2c2013;
+            color: #1a1a1a;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Alinhado lado a lado como na foto */
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: inset -2px -4px 0px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
+            gap: 10px;
+            box-shadow: inset -2px -4px 0px rgba(0,0,0,0.2), 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.05s, box-shadow 0.05s;
+            font-family: 'Comfortaa', sans-serif;
         }
-        .botoes-grupo button:active { transform: scale(0.97); }
+        .botoes-grupo button:active { 
+            transform: translateY(2px); 
+            box-shadow: inset -1px -1px 0px rgba(0,0,0,0.2);
+        }
         .botoes-grupo button:disabled { opacity: 0.6; cursor: not-allowed; }
         .botoes-grupo button img {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
-        .btn-rapidas { background-color: #90a96e; }
-        .btn-banquetes { background-color: #dca052; }
-        .btn-sobremesas { background-color: #e59994; }
+        /* Cores exatas dos botões da imagem */
+        .btn-rapidas { background-color: #9cb46e; }
+        .btn-banquetes { background-color: #ddaa67; }
+        .btn-sobremesas { background-color: #e2a39f; }
 
-        /* 🎲 Caixa de Instrução */
+        /* 🎲 Caixa de Instrução Tracejada */
         .roleta-box {
-            background-color: #fffdf6;
-            border: 2px dashed #a49a83;
+            background-color: transparent;
+            border: 2px dashed #444;
             border-radius: 6px;
-            padding: 20px;
+            padding: 25px;
             font-size: 16px;
-            color: #444;
+            color: #222;
             margin-bottom: 20px;
         }
         .hidden { display: none; }
@@ -172,34 +209,40 @@
         .box-resultado {
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 2px solid #ebdcb9;
             animation: fadeIn 0.4s ease-out;
         }
         .tag-categoria {
             display: inline-block;
-            background-color: #e4d5b1;
-            border: 1px solid #bdae8c;
-            padding: 3px 10px;
-            font-size: 11px;
+            background-color: #e1d3b0;
+            border: 2px solid #2c2013;
+            padding: 4px 12px;
+            font-size: 12px;
             font-weight: bold;
             border-radius: 4px;
-            color: #555;
-            margin-bottom: 8px;
+            color: #2c2013;
+            margin-bottom: 10px;
         }
-        .box-resultado h2 { margin: 5px 0 15px 0; }
-        #link-receita { color: #0066cc; font-size: 18px; text-decoration: underline; }
+        .box-resultado h2 { margin: 5px 0 20px 0; font-size: 20px; }
+        #link-receita { color: #0044cc; text-decoration: underline; }
         
+        /* Botão Salvar Estilo Madeira */
         .btn-favoritar {
-            background-color: #d2b48c; border: 2px solid #5c4033; color: #4a2f13;
-            padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: bold;
-            cursor: pointer; box-shadow: inset -1px -3px 0px rgba(0,0,0,0.1);
+            background-color: #ddaa67; 
+            border: 2px solid #2c2013; 
+            color: #2c2013;
+            padding: 8px 20px; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            font-weight: bold;
+            cursor: pointer; 
+            box-shadow: inset -1px -3px 0px rgba(0,0,0,0.2);
+            font-family: 'Comfortaa', sans-serif;
         }
-        .btn-favoritar:hover { background-color: #c1a37c; }
+        .btn-favoritar:hover { background-color: #c99655; }
 
-        /* 🎵 Player de Música */
+        /* 🎵 Player de Música no Canto */
         .spotify-container {
             margin-top: 25px;
-            text-align: right;
             display: flex;
             justify-content: flex-end;
         }
@@ -216,11 +259,9 @@
 <div class="container">
     
     <div class="topo-decoracao">
-        <span class="ramo-pixel">🌿</span>
         <div class="logo-casal">
-            <img src="FRENTE.jpg" alt="Logo Casal">
+            <img src="5.png" alt="Logo Casal">
         </div>
-        <span class="ramo-pixel">🌿</span>
     </div>
 
     <h1>Cardápio meu bem i eu</h1>
@@ -263,6 +304,7 @@
 </div>
 
 <script>
+// O JavaScript permanece o mesmo que você já construiu perfeitamente!
 const receitas = [
   { id: 1, nome: "Shakshuka (Ovos no Tomate)", categoria: "rapidas", tag: "Prático e rápido", url: "https://www.lecreuset.com.br/shakshuka/SKI_084.html" },
   { id: 2, nome: "Camembert Folhado com Mel", categoria: "rapidas", tag: "Petiscar e fofocar", url: "https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html" },
