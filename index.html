@@ -44,6 +44,7 @@ body::before {
     padding:20px;
     width:720px;
     text-align:center;
+    position:relative;
 }
 
 /* LOGO */
@@ -52,14 +53,14 @@ body::before {
     filter: drop-shadow(0 4px 0 #3b2f1c);
 }
 
-/* 💖 CORAÇÃO FINAL */
+/* 💖 CORAÇÃO PERFEITO */
 .heart {
     position:absolute;
-    left:-70px;
-    top:10px;
-    width:90px;
+    left:-45px;
+    top:15px;
+    width:80px;
     animation:pulse 1s infinite;
-    filter: drop-shadow(0 4px 0 #3b2f1c);
+    filter: drop-shadow(0 3px 0 #3b2f1c);
 }
 
 @keyframes pulse {
@@ -120,40 +121,59 @@ button:active {
     border-bottom:3px solid #3b2f1c;
 }
 
-/* ✨ BRILHO */
+/* BRILHO */
 .slot-window::after {
     content:"";
     position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
+    inset:0;
     background: linear-gradient(
         to bottom,
         rgba(255,255,255,0.3),
         transparent,
         rgba(0,0,0,0.2)
     );
-    pointer-events:none;
 }
 
+/* TRACK */
 .slot-track {
     position:absolute;
     width:100%;
 }
 
+/* ITEM */
 .slot-item {
     height:80px;
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:22px;
+    opacity:0.6;
+}
+
+/* 🎯 ITEM FINAL */
+.slot-item.active {
+    transform: scale(1.2);
+    opacity:1;
+    color:#2c2013;
+    text-shadow: 0 0 6px rgba(255,255,255,0.9);
 }
 
 /* RESULTADO */
 .resultado {
     margin-top:15px;
     font-size:20px;
+    animation:pop 0.4s ease, glow 1s ease;
+}
+
+@keyframes pop {
+    0% { transform:scale(0.8); opacity:0; }
+    100% { transform:scale(1); }
+}
+
+@keyframes glow {
+    0% { text-shadow:0 0 0px gold; }
+    50% { text-shadow:0 0 12px gold; }
+    100% { text-shadow:0 0 0px gold; }
 }
 </style>
 </head>
@@ -179,7 +199,7 @@ button:active {
 
 <div id="resultado" class="resultado"></div>
 
-<button onclick="toggleMusic()">🎵 música</button>
+<button id="btnMusic" onclick="toggleMusic()">🔇 música</button>
 
 <!-- 🎵 ÁUDIO -->
 <audio id="bgm" loop>
@@ -236,6 +256,8 @@ function sortear(cat){
             track.style.transition="transform 0.5s ease-out";
             track.style.transform=`translateY(-${index*80}px)`;
 
+            track.children[index].classList.add("active");
+
             setTimeout(()=>{
                 resultado.innerHTML=`
                 ⭐ ${final.nome}<br><br>
@@ -252,14 +274,21 @@ const bgm = document.getElementById("bgm");
 bgm.volume = 0.2;
 
 document.addEventListener("click", () => {
-    if (bgm.paused) bgm.play();
+    if (bgm.paused) {
+        bgm.play();
+        document.getElementById("btnMusic").textContent = "🔊 música";
+    }
 });
 
 function toggleMusic(){
+    const btn = document.getElementById("btnMusic");
+
     if(bgm.paused){
         bgm.play();
+        btn.textContent = "🔊 música";
     } else {
         bgm.pause();
+        btn.textContent = "🔇 música";
     }
 }
 
