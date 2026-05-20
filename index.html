@@ -16,31 +16,21 @@ body {
     justify-content:center;
     align-items:center;
     min-height:100vh;
-    position:relative;
 }
 
 /* FUNDO */
 body::before {
     content:"";
     position:fixed;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
-
     background:
-        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
-        url("logo.png") center center no-repeat;
-
-    background-size: cover;
-
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)),
+        url("logo.png") center/cover no-repeat;
     filter: blur(8px);
     transform: scale(1.1);
-
     z-index:-1;
 }
-
-img { image-rendering: pixelated; }
 
 /* CONTAINER */
 .container {
@@ -49,51 +39,31 @@ img { image-rendering: pixelated; }
     box-shadow:
         inset -4px -4px 0 #d8c79a,
         inset 4px 4px 0 #fff8e5,
-        0 6px 0 #3b2f1c,
-        0 12px 0 #2a1f12;
-
+        0 10px 0 #2a1f12;
     padding:20px;
     width:720px;
     text-align:center;
-    position:relative;
-
-    backdrop-filter: blur(2px);
 }
 
 /* LOGO */
 .logo {
     width:240px;
-    margin-bottom:5px;
     filter: drop-shadow(0 4px 0 #3b2f1c);
 }
 
-/* CORAÇÃO */
+/* 💖 CORAÇÃO MAIOR */
 .heart {
     position:absolute;
-    left:-40px;
-    top:30px;
-    width:55px;
-    animation:pulse 1.2s infinite;
+    left:-60px;
+    top:20px;
+    width:80px;
+    animation:pulse 1s infinite;
 }
 
 @keyframes pulse {
     0% { transform:scale(1); }
-    50% { transform:scale(1.15); }
+    50% { transform:scale(1.3); }
     100% { transform:scale(1); }
-}
-
-/* FAVORITOS */
-.favs {
-    background:#f3e6c4;
-    border:2px solid #3b2f1c;
-    padding:10px;
-    margin-bottom:15px;
-    text-align:left;
-}
-
-.favs li {
-    display:flex;
-    justify-content:space-between;
 }
 
 /* BOTÕES */
@@ -101,6 +71,7 @@ img { image-rendering: pixelated; }
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
     gap:10px;
+    margin-top:15px;
 }
 
 button {
@@ -116,25 +87,15 @@ button {
     padding:10px;
 }
 
-button:active {
-    transform:translateY(4px);
-}
-
 /* SLOT */
 .slot-window {
     width:300px;
     height:80px;
     overflow:hidden;
-
     border:4px solid #3b2f1c;
     background:#fff8dc;
-
     margin:20px auto;
     position:relative;
-
-    box-shadow:
-        inset 0 10px 20px rgba(0,0,0,0.3),
-        inset 0 -10px 20px rgba(0,0,0,0.3);
 }
 
 .slot-window::before {
@@ -160,23 +121,12 @@ button:active {
     align-items:center;
     justify-content:center;
     font-size:22px;
-    opacity:0.5;
-}
-
-.slot-item.active {
-    opacity:1;
-    transform:scale(1.1);
 }
 
 /* RESULTADO */
 .resultado {
     margin-top:15px;
-    animation:pop 0.4s ease;
-}
-
-@keyframes pop {
-    0% { transform:scale(0.8); opacity:0; }
-    100% { transform:scale(1); }
+    font-size:20px;
 }
 </style>
 </head>
@@ -190,11 +140,6 @@ button:active {
 
 <h1>Cardápio meu bem i eu</h1>
 
-<div class="favs">
-<b>❤️ Favoritos</b>
-<ul id="listaFav"></ul>
-</div>
-
 <div class="botoes">
 <button onclick="sortear('rapidas')">🍳 rápido</button>
 <button onclick="sortear('banquete')">🍖 banquete</button>
@@ -207,13 +152,7 @@ button:active {
 
 <div id="resultado" class="resultado"></div>
 
-<!-- BOTÃO MÚSICA -->
-<button onclick="toggleMusic()">🎵 música</button>
-
-<!-- ÁUDIOS -->
-<audio id="click" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b2b06.mp3"></audio>
-<audio id="win" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1f9a3b1b.mp3"></audio>
-
+<!-- 🎵 MÚSICA -->
 <audio id="bgm" loop>
   <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c4c2e9c4e3.mp3">
 </audio>
@@ -222,47 +161,23 @@ button:active {
 
 <script>
 
-// RECEITAS
+// RECEITAS (MAIS COMPLETO)
 const receitas = [
 {nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
-{nome:"Risoto",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
-{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"}
+{nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
+{nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
+
+{nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
+{nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
+{nome:"Risoto de Alho-Poró",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
+
+{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
+{nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
+{nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
 ];
-
-// FAVORITOS
-let favoritos = JSON.parse(localStorage.getItem("fav")) || [];
-
-function salvar(nome,url){
-    if(!favoritos.some(f=>f.nome===nome)){
-        favoritos.push({nome,url});
-        localStorage.setItem("fav", JSON.stringify(favoritos));
-        renderFav();
-    }
-}
-
-function remover(nome){
-    favoritos = favoritos.filter(f=>f.nome!==nome);
-    localStorage.setItem("fav", JSON.stringify(favoritos));
-    renderFav();
-}
-
-function renderFav(){
-    const ul = document.getElementById("listaFav");
-    ul.innerHTML="";
-    favoritos.forEach(f=>{
-        const li=document.createElement("li");
-        li.innerHTML=`<a href="${f.url}" target="_blank">${f.nome}</a>
-        <button onclick="remover('${f.nome}')">x</button>`;
-        ul.appendChild(li);
-    });
-}
-
-renderFav();
 
 // SLOT
 function sortear(cat){
-
-    document.getElementById("click").play();
 
     const lista = receitas.filter(r=>r.cat===cat);
     const track = document.getElementById("track");
@@ -292,15 +207,10 @@ function sortear(cat){
             track.style.transition="transform 0.5s ease-out";
             track.style.transform=`translateY(-${index*80}px)`;
 
-            track.children[index].classList.add("active");
-
-            document.getElementById("win").play();
-
             setTimeout(()=>{
                 resultado.innerHTML=`
                 ⭐ ${final.nome}<br><br>
-                <a href="${final.url}" target="_blank">ver receita</a><br><br>
-                <button onclick="salvar('${final.nome}','${final.url}')">❤️ salvar</button>
+                <a href="${final.url}" target="_blank">ver receita</a>
                 `;
             },500);
         }
@@ -308,22 +218,13 @@ function sortear(cat){
     },16);
 }
 
-// MÚSICA
+// 🎵 MÚSICA
 const bgm = document.getElementById("bgm");
 bgm.volume = 0.2;
 
 document.addEventListener("click", () => {
     if (bgm.paused) bgm.play();
 });
-
-function toggleMusic(){
-    if(bgm.paused){
-        bgm.play();
-    } else {
-        bgm.pause();
-    }
-}
-
 </script>
 
 </body>
