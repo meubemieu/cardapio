@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio meu bem i eu</title>
     <style>
-        /* 🎨 Configuração do Fundo Estilo Stardew Valley */
+        /* 🎨 Fundo Estilo Stardew Valley */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -16,12 +16,22 @@
             align-items: center;
             box-sizing: border-box;
             background-color: #f4ebd0;
-            
-            /* Foto do casal como fundo gigante desfocado */
-            background-image: linear-gradient(rgba(244, 235, 208, 0.75), rgba(244, 235, 208, 0.75)), url('FRENTE.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Camada de Fundo Otimizada */
+        .fundo-fallback {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-color: #f4ebd0;
+        }
+        .fundo-fallback img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+            filter: blur(4px);
         }
 
         /* 📦 O Painel Central */
@@ -36,9 +46,9 @@
             text-align: center;
             position: relative;
             box-sizing: border-box;
+            z-index: 2;
         }
 
-        /* 📸 Logo com Enfeites no Topo */
         .topo-decoracao {
             display: flex;
             align-items: center;
@@ -46,27 +56,16 @@
             gap: 12px;
             margin-bottom: 5px;
         }
-        .ramo-pixel {
-            font-size: 24px;
-            color: #bfa17a;
-        }
-        .logo-casal {
+        .ramo-pixel { font-size: 24px; color: #bfa17a; }
+        
+        .logo-casal img {
             width: 100px;
             height: auto;
             display: block;
         }
 
-        h1 {
-            color: #2b2b2b;
-            font-size: 26px;
-            margin: 5px 0 2px 0;
-            font-weight: bold;
-        }
-        .subtitulo {
-            color: #555;
-            font-size: 14px;
-            margin: 0 0 20px 0;
-        }
+        h1 { color: #2b2b2b; font-size: 26px; margin: 5px 0 2px 0; font-weight: bold; }
+        .subtitulo { color: #555; font-size: 14px; margin: 0 0 20px 0; }
 
         /* ❤️ Seção de Receitas Favoritas */
         .secao-favoritos {
@@ -87,9 +86,7 @@
             justify-content: center;
             gap: 6px;
         }
-        .secao-favoritos h3 span { color: #cc3131; }
 
-        /* Coração Gigante Flutuando na Esquerda */
         .coracao-decorativo {
             position: absolute;
             left: -20px;
@@ -117,22 +114,11 @@
             border-radius: 4px;
             font-size: 13px;
         }
-        .fav-item a {
-            color: #333;
-            text-decoration: none;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .fav-item a { color: #333; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .fav-item a:hover { text-decoration: underline; }
         .btn-remover-fav {
-            background: #b5a484;
-            border: 1px solid #7a6e56;
-            color: white;
-            border-radius: 3px;
-            cursor: pointer;
-            padding: 0px 5px;
-            font-size: 11px;
+            background: #b5a484; border: 1px solid #7a6e56; color: white;
+            border-radius: 3px; cursor: pointer; padding: 0px 5px; font-size: 11px;
         }
 
         /* 🍳 Botões das Categorias */
@@ -151,6 +137,7 @@
             color: #2c2013;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -200,22 +187,12 @@
             margin-bottom: 8px;
         }
         .box-resultado h2 { margin: 5px 0 15px 0; }
-        #link-receita {
-            color: #0066cc;
-            font-size: 18px;
-            text-decoration: underline;
-        }
+        #link-receita { color: #0066cc; font-size: 18px; text-decoration: underline; }
         
         .btn-favoritar {
-            background-color: #d2b48c;
-            border: 2px solid #5c4033;
-            color: #4a2f13;
-            padding: 6px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: inset -1px -3px 0px rgba(0,0,0,0.1);
+            background-color: #d2b48c; border: 2px solid #5c4033; color: #4a2f13;
+            padding: 6px 16px; border-radius: 6px; font-size: 13px; font-weight: bold;
+            cursor: pointer; box-shadow: inset -1px -3px 0px rgba(0,0,0,0.1);
         }
         .btn-favoritar:hover { background-color: #c1a37c; }
 
@@ -227,19 +204,22 @@
             justify-content: flex-end;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
+
+<div class="fundo-fallback">
+    <img src="FRENTE.jpg" alt="Fundo">
+</div>
 
 <div class="container">
     
     <div class="topo-decoracao">
         <span class="ramo-pixel">🌿</span>
-        <img class="logo-casal" src="FRENTE.jpg" alt="Logo Casal">
+        <div class="logo-casal">
+            <img src="FRENTE.jpg" alt="Logo Casal">
+        </div>
         <span class="ramo-pixel">🌿</span>
     </div>
 
@@ -248,19 +228,24 @@
 
     <div id="painel-favoritos" class="secao-favoritos">
         <img src="5.png" class="coracao-decorativo" alt="Coração Pixel">
-        <h3><span>❤️</span> Nossas Receitas Favoritas:</h3>
+        <h3>❤️ Nossas Receitas Favoritas:</h3>
         <ul id="lista-favoritos" class="lista-favoritos"></ul>
     </div>
 
     <div class="botoes-grupo">
         <button class="btn-rapidas" onclick="sortearPorCategoria('rapidas')">
-            <img src="FRENTE (3).jpg" alt="Frigideira"> jantar vapt-vupt
+            <img src="FRENTE%20(3).jpg" alt="Frigideira">
+            jantar vapt-vupt
         </button>
+        
         <button class="btn-banquetes" onclick="sortearPorCategoria('banquetes')">
-            <img src="FRENTE (2).jpg" alt="Faca"> banquete
+            <img src="FRENTE%20(2).jpg" alt="Faca">
+            banquete
         </button>
+        
         <button class="btn-sobremesas" onclick="sortearPorCategoria('sobremesas')">
-            <img src="FRENTE (4).jpg" alt="Fouet"> sobremesas
+            <img src="FRENTE%20(4).jpg" alt="Fouet">
+            sobremesas
         </button>
     </div>
 
@@ -286,10 +271,10 @@ const receitas = [
   { id: 5, nome: "Ragu de Costela com Polenta", categoria: "banquetes", tag: "Almoço de domingo", url: "https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html" },
   { id: 6, nome: "Risoto de Alho-Poró com Parmesão", categoria: "banquetes", tag: "Noite italiana", url: "https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html" },
   { id: 7, nome: "Arroz de Braga", categoria: "banquetes", tag: "Uma só panela", url: "https://www.lecreuset.com.br/refeicoes-principais/arroz-de-braga/LCO-21059.html" },
-  { id: 8, nome: "Picadinho de Carne Tradicional", categoria: "banquetes", tag: "esse vai ser top", url: "https://www.lecreuset.com.br/refeicoes-principais/picadinho-le-creuset/LCO-21107.html" },
+  { id: 8, nome: "Picadinho de Carne Tradicional", categoria: "banquetes", tag: "Especial de casa", url: "https://www.lecreuset.com.br/refeicoes-principais/picadinho-le-creuset/LCO-21107.html" },
   { id: 9, nome: "Bolo de Cenoura com Brigadeiro", categoria: "sobremesas", tag: "Cafézinho da tarde", url: "https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html" },
-  { id: 10, nome: "Tarte Tatin de Maçã Clássica", categoria: "sobremesas", tag: "Sobremesa de MasterChef", url: "https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html" },
-  { id: 11, nome: "Grand Gateau de Chocolate", categoria: "sobremesas", tag: "TPM", url: "https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html" }
+  { id: 10, nome: "Tarte Tatin de Maçã Clássica", categoria: "sobremesas", tag: "Sobremesa de Chef", url: "https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html" },
+  { id: 11, nome: "Grand Gateau de Chocolate", categoria: "sobremesas", tag: "Açúcar na veia!", url: "https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html" }
 ];
 
 let receitasSorteadas = [];
