@@ -11,12 +11,12 @@
 <style>
 body {
     margin:0;
-    font-family: 'VT323', monospace;
+    font-family:'VT323', monospace;
     background:#e9dfc3;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
+    min-height:100vh;
 }
 
 img { image-rendering: pixelated; }
@@ -31,12 +31,42 @@ img { image-rendering: pixelated; }
     padding:20px;
     width:720px;
     text-align:center;
+    position:relative;
 }
 
-h1 { font-size:32px; margin:0; }
+/* LOGO */
+.logo {
+    width:120px;
+    margin-bottom:10px;
+}
 
-.sub { margin-bottom:15px; }
+/* CORAÇÃO */
+.heart {
+    position:absolute;
+    left:-40px;
+    top:30px;
+    width:50px;
+}
 
+/* FAVORITOS */
+.favs {
+    background:#f3e6c4;
+    border:2px solid #3b2f1c;
+    padding:10px;
+    margin-bottom:15px;
+    text-align:left;
+}
+
+.favs li {
+    display:flex;
+    justify-content:space-between;
+}
+
+.favs button {
+    font-size:12px;
+}
+
+/* BOTÕES */
 .botoes {
     display:grid;
     grid-template-columns:1fr 1fr 1fr;
@@ -58,34 +88,35 @@ button {
 
 button:active {
     transform:translateY(4px);
-    box-shadow: inset -2px -2px 0 #8c6f3f;
 }
 
-.resultado {
-    margin-top:20px;
-    border:3px dashed #3b2f1c;
-    padding:20px;
+/* SLOT */
+.slot-window {
+    width:300px;
+    height:80px;
+    overflow:hidden;
+    border:4px solid #3b2f1c;
     background:#fff8dc;
-    min-height:80px;
+    margin:20px auto;
+    position:relative;
 }
 
-/* animação roleta */
-.spin {
-    animation: spin 0.1s linear infinite;
+.slot-track {
+    position:absolute;
+    width:100%;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(3deg); }
+.slot-item {
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
 }
 
-/* fade */
-.fade {
-    animation: fade 0.5s ease;
-}
-@keyframes fade {
-    from { opacity:0; transform:translateY(10px); }
-    to { opacity:1; }
+/* RESULTADO */
+.resultado {
+    margin-top:15px;
 }
 </style>
 </head>
@@ -94,8 +125,15 @@ button:active {
 
 <div class="container">
 
+<img src="logo.png" class="logo">
+<img src="coracao.png" class="heart">
+
 <h1>Cardápio meu bem i eu</h1>
-<div class="sub">o que vamos cozinhar hoje?</div>
+
+<div class="favs">
+<b>❤️ Favoritos</b>
+<ul id="listaFav"></ul>
+</div>
 
 <div class="botoes">
 <button onclick="sortear('rapidas')">🍳 rápido</button>
@@ -103,9 +141,11 @@ button:active {
 <button onclick="sortear('sobremesa')">🍰 doce</button>
 </div>
 
-<div id="resultado" class="resultado">
-escolha uma categoria ❤️
+<div class="slot-window">
+    <div class="slot-track" id="track"></div>
 </div>
+
+<div id="resultado" class="resultado"></div>
 
 <audio id="click" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b2b06.mp3"></audio>
 <audio id="win" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1f9a3b1b.mp3"></audio>
@@ -114,47 +154,98 @@ escolha uma categoria ❤️
 
 <script>
 
-// receitas reais (adaptadas do site)
+// RECEITAS
 const receitas = [
-{nome:"Shakshuka", cat:"rapidas", url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
-{nome:"Camembert Folhado", cat:"rapidas", url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
-{nome:"Creme de Abóbora", cat:"rapidas", url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
+{nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
+{nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
+{nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
 
-{nome:"Boeuf Bourguignon", cat:"banquete", url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
-{nome:"Risoto de Alho Poró", cat:"banquete", url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
-{nome:"Ragu de Costela", cat:"banquete", url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
+{nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
+{nome:"Risoto",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
+{nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
 
-{nome:"Bolo de Cenoura", cat:"sobremesa", url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
-{nome:"Tarte Tatin", cat:"sobremesa", url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
-{nome:"Grand Gateau", cat:"sobremesa", url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
+{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
+{nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
+{nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
 ];
 
+// FAVORITOS
+let favoritos = JSON.parse(localStorage.getItem("fav")) || [];
+
+function salvar(nome,url){
+    if(!favoritos.some(f=>f.nome===nome)){
+        favoritos.push({nome,url});
+        localStorage.setItem("fav", JSON.stringify(favoritos));
+        renderFav();
+    }
+}
+
+function remover(nome){
+    favoritos = favoritos.filter(f=>f.nome!==nome);
+    localStorage.setItem("fav", JSON.stringify(favoritos));
+    renderFav();
+}
+
+function renderFav(){
+    const ul = document.getElementById("listaFav");
+    ul.innerHTML="";
+    favoritos.forEach(f=>{
+        const li=document.createElement("li");
+        li.innerHTML=`<a href="${f.url}" target="_blank">${f.nome}</a>
+        <button onclick="remover('${f.nome}')">x</button>`;
+        ul.appendChild(li);
+    });
+}
+
+renderFav();
+
+// SLOT MACHINE
 function sortear(cat){
 
     document.getElementById("click").play();
 
-    const box = document.getElementById("resultado");
-    box.innerHTML = "🎲 sorteando...";
-    box.classList.add("spin");
+    const lista = receitas.filter(r=>r.cat===cat);
+    const track = document.getElementById("track");
+    const resultado = document.getElementById("resultado");
 
-    setTimeout(()=>{
+    let items=[];
+    for(let i=0;i<25;i++){
+        items.push(lista[Math.floor(Math.random()*lista.length)]);
+    }
 
-        box.classList.remove("spin");
+    track.innerHTML = items.map(r=>`<div class="slot-item">${r.nome}</div>`).join("");
 
-        const lista = receitas.filter(r=>r.cat===cat);
-        const r = lista[Math.floor(Math.random()*lista.length)];
+    let pos=0;
+    let speed=30;
 
-        document.getElementById("win").play();
+    const anim=setInterval(()=>{
+        pos+=speed;
+        track.style.transform=`translateY(-${pos}px)`;
+        speed*=0.97;
 
-        box.innerHTML = `
-        <div class="fade">
-        ⭐ ${r.nome} <br><br>
-        <a href="${r.url}" target="_blank">ver receita</a>
-        </div>
-        `;
+        if(speed<1){
+            clearInterval(anim);
 
-    }, 1500);
+            const final=lista[Math.floor(Math.random()*lista.length)];
+            const index=items.findIndex(i=>i.nome===final.nome);
+
+            track.style.transition="transform 0.5s ease-out";
+            track.style.transform=`translateY(-${index*80}px)`;
+
+            document.getElementById("win").play();
+
+            setTimeout(()=>{
+                resultado.innerHTML=`
+                ⭐ ${final.nome}<br><br>
+                <a href="${final.url}" target="_blank">ver receita</a><br><br>
+                <button onclick="salvar('${final.nome}','${final.url}')">❤️ salvar</button>
+                `;
+            },500);
+        }
+
+    },16);
 }
+
 </script>
 
 </body>
