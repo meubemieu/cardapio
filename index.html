@@ -19,7 +19,7 @@ body {
     position:relative;
 }
 
-/* FUNDO COM SUA IMAGEM */
+/* FUNDO */
 body::before {
     content:"";
     position:fixed;
@@ -27,13 +27,22 @@ body::before {
     left:0;
     width:100%;
     height:100%;
-    background:url("logo.png") center/cover no-repeat;
-    filter: blur(6px) brightness(0.7);
+
+    background:
+        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+        url("logo.png") center center no-repeat;
+
+    background-size: cover;
+
+    filter: blur(8px);
+    transform: scale(1.1);
+
     z-index:-1;
 }
 
 img { image-rendering: pixelated; }
 
+/* CONTAINER */
 .container {
     background:#fff6db;
     border:4px solid #3b2f1c;
@@ -42,16 +51,20 @@ img { image-rendering: pixelated; }
         inset 4px 4px 0 #fff8e5,
         0 6px 0 #3b2f1c,
         0 12px 0 #2a1f12;
+
     padding:20px;
     width:720px;
     text-align:center;
     position:relative;
+
+    backdrop-filter: blur(2px);
 }
 
-/* LOGO MAIOR */
+/* LOGO */
 .logo {
-    width:200px;
-    margin-bottom:10px;
+    width:240px;
+    margin-bottom:5px;
+    filter: drop-shadow(0 4px 0 #3b2f1c);
 }
 
 /* CORAÇÃO */
@@ -112,10 +125,16 @@ button:active {
     width:300px;
     height:80px;
     overflow:hidden;
+
     border:4px solid #3b2f1c;
     background:#fff8dc;
+
     margin:20px auto;
     position:relative;
+
+    box-shadow:
+        inset 0 10px 20px rgba(0,0,0,0.3),
+        inset 0 -10px 20px rgba(0,0,0,0.3);
 }
 
 .slot-window::before {
@@ -188,19 +207,29 @@ button:active {
 
 <div id="resultado" class="resultado"></div>
 
+<!-- BOTÃO MÚSICA -->
+<button onclick="toggleMusic()">🎵 música</button>
+
+<!-- ÁUDIOS -->
 <audio id="click" src="https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b2b06.mp3"></audio>
 <audio id="win" src="https://cdn.pixabay.com/audio/2022/03/15/audio_3c1f9a3b1b.mp3"></audio>
+
+<audio id="bgm" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c4c2e9c4e3.mp3">
+</audio>
 
 </div>
 
 <script>
 
+// RECEITAS
 const receitas = [
 {nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
 {nome:"Risoto",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
 {nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"}
 ];
 
+// FAVORITOS
 let favoritos = JSON.parse(localStorage.getItem("fav")) || [];
 
 function salvar(nome,url){
@@ -230,6 +259,7 @@ function renderFav(){
 
 renderFav();
 
+// SLOT
 function sortear(cat){
 
     document.getElementById("click").play();
@@ -276,6 +306,22 @@ function sortear(cat){
         }
 
     },16);
+}
+
+// MÚSICA
+const bgm = document.getElementById("bgm");
+bgm.volume = 0.2;
+
+document.addEventListener("click", () => {
+    if (bgm.paused) bgm.play();
+});
+
+function toggleMusic(){
+    if(bgm.paused){
+        bgm.play();
+    } else {
+        bgm.pause();
+    }
 }
 
 </script>
