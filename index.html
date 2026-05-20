@@ -9,15 +9,8 @@
 
 <style>
 body {
-    font-family: 'Comfortaa', sans-serif;
-    margin: 0;
-    padding: 20px;
     background-color: #f4ebd0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background-image: url("https://raw.githubusercontent.com/meubemieu/cardapio/refs/heads/main/FRENTE.jpg.png");
 }
 
 /* 👩‍🍳 PERSONAGENS LATERAIS */
@@ -36,16 +29,8 @@ body {
 
 /* 📦 CONTAINER ESTILO JOGO */
 .container {
-    background-color: #fff6db;
-    border: 4px solid #6f7f3b;
-    outline: 3px solid #2c2013;
-    box-shadow: 0 8px 0 #2c2013;
-    max-width: 680px;
-    width: 100%;
-    padding: 25px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
+    border-radius: 0;
+    outline: 4px solid #2c2013;
 }
 
 /* TOPO */
@@ -90,12 +75,17 @@ h1 { margin: 10px 0 5px; }
 
 button {
     border: 3px solid #2c2013;
-    padding: 10px;
+    background: #9cb46e;
+    box-shadow:
+        inset -3px -4px 0 rgba(0,0,0,0.25),
+        0 4px 0 #2c2013;
     font-weight: bold;
     cursor: pointer;
-    box-shadow:
-        inset -3px -4px 0px rgba(0,0,0,0.25),
-        0 3px 0 #2c2013;
+}
+
+button:active {
+    transform: translateY(4px);
+    box-shadow: inset -1px -1px 0 rgba(0,0,0,0.2);
 }
 
 button:active {
@@ -136,28 +126,26 @@ button:active {
 <body>
 
 <!-- 👩‍🍳 PERSONAGENS -->
-<img src="personagem-esq.png" class="personagem esquerda">
-<img src="personagem-dir.png" class="personagem direita">
 
 <div class="container">
 
 <div class="logo">
-<img src="5.png">
+<img src="https://raw.githubusercontent.com/meubemieu/cardapio/refs/heads/main/FRENTE.jpg.png">
 </div>
 
 <h1>Cardápio meu bem i eu</h1>
 <p class="subtitulo">o que vamos cozinhar esse mês?</p>
 
 <div class="secao-favoritos">
-<img src="coracao.png" class="coracao-decorativo">
+<img src="https://raw.githubusercontent.com/meubemieu/cardapio/refs/heads/main/5.png.png">
 <h3>❤️ Nossas Receitas Favoritas:</h3>
 <ul id="lista-favoritos"></ul>
 </div>
 
 <div class="botoes-grupo">
-<button class="btn-rapidas" onclick="sortear('rapidas')">🍳 jantar vapt-vupt</button>
-<button class="btn-banquetes" onclick="sortear('banquetes')">🔪 banquete</button>
-<button class="btn-sobremesas" onclick="sortear('sobremesas')">🍰 sobremesas</button>
+<button class="btn-rapidas" onclick="sortear('rapidas')">jantar vapt-vupt</button>
+<button class="btn-banquetes" onclick="sortear('banquetes')">banquete</button>
+<button class="btn-sobremesas" onclick="sortear('sobremesas')">sobremesas</button>
 </div>
 
 <div id="roleta" class="roleta-box">escolha uma categoria ❤️</div>
@@ -170,7 +158,7 @@ button:active {
 
 <div class="spotify">
 <iframe style="border-radius:12px"
-src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGka6w7v"
+src="https://open.spotify.com/playlist/2ZZYiGV26U0l4LaNny6LTr?si=rBsAPO0qTJWGGKdV1oLyMA&pi=wzPalu3JT7Oq5"
 width="220" height="80"></iframe>
 </div>
 
