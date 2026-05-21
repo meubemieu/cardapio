@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cardapio-v1';
+const CACHE_NAME = 'cardapio-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -6,21 +6,19 @@ const ASSETS = [
   './coracao.png'
 ];
 
-// Instala o Service Worker e guarda os arquivos essenciais no cache do celular
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      // Usar o método simples para evitar travamentos caso falte algum arquivo
+      return cache.addAll(ASSETS).catch(err => console.log("Aviso de cache:", err));
     })
   );
 });
 
-// Ativa o Service Worker
 self.addEventListener('activate', (e) => {
   e.waitUntil(self.clients.claim());
 });
 
-// Serve os arquivos do cache quando o app for aberto
 self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(e.request).then((response) => {
