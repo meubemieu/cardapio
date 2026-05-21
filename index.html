@@ -1,456 +1,268 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Impede que o celular inverta as cores e estrague o visual retrô -->
+    <meta name="color-scheme" content="light only">
+    
+    <!-- Conecta as configurações do seu aplicativo -->
+    <link rel="manifest" href="manifest.json">
 
-<title>Cardápio meu bem i eu</title>
+    <title>Cardápio meu bem i eu</title>
 
-<!-- Fontes Retro complementares -->
-<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Fontes Retro complementares -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
 
-<style>
-:root {
-    --cor-fundo: #fff6db;
-    --cor-borda: #3b2f1c;
-    --cor-botao: #c8a46b;
-    --cor-botao-hover: #dfba82;
-    --cor-sombra-botao: #8c6f3f;
-    --cor-texto: #2c2013;
-}
+    <style>
+        :root {
+            color-scheme: light;
+            --cor-fundo: #fff6db;
+            --cor-borda: #3b2f1c;
+            --cor-botao: #c8a46b;
+            --cor-botao-hover: #dfba82;
+            --cor-sombra-botao: #8c6f3f;
+            --cor-texto: #2c2013;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-body {
-    margin: 0;
-    font-family: 'VT323', monospace;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    background-color: #1a120b;
-}
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-/* FUNDO BORRADO */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background:
-        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
-        url("logo.png") center/cover no-repeat;
-    filter: blur(8px);
-    transform: scale(1.05);
-    z-index: -1;
-}
+        .container {
+            background-color: var(--cor-fundo);
+            border: 4px solid var(--cor-borda);
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 8px 8px 0px var(--cor-borda);
+            image-rendering: pixelated;
+        }
 
-/* CONTAINER PRINCIPAL */
-.container {
-    background: var(--cor-fundo);
-    border: 4px solid var(--cor-borda);
-    border-radius: 12px;
-    box-shadow:
-        inset -4px -4px 0 #d8c79a,
-        inset 4px 4px 0 #fff8e5,
-        0 12px 0 rgba(0,0,0,0.4),
-        0 20px 25px rgba(0,0,0,0.3);
-    padding: 35px 25px;
-    width: 100%;
-    max-width: 520px;
-    text-align: center;
-    position: relative;
-}
+        .pixel-art {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: block;
+        }
 
-/* LOGO */
-.logo {
-    width: 180px;
-    height: auto;
-    filter: drop-shadow(0 4px 0 var(--cor-borda));
-    margin-bottom: 15px;
-}
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
 
-/* ÁREA DO TÍTULO + CORAÇÃO ALINHADOS */
-.titulo-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin: 0 auto 5px auto;
-    position: relative;
-}
+        .subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #6d5634;
+        }
 
-h1 {
-    font-size: 38px;
-    color: var(--cor-texto);
-    margin: 0;
-    text-shadow: 1px 1px 0 #fff;
-    letter-spacing: 1px;
-}
+        .display-container {
+            border: 4px solid var(--cor-borda);
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 4px 4px 0px rgba(0,0,0,0.1);
+        }
 
-/* SUBTÍTULO ADDED */
-.subtitulo {
-    font-size: 24px;
-    color: #5c4a33;
-    margin: 0 0 25px 0;
-    letter-spacing: 0.5px;
-}
+        .tipo-refeicao {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
+            color: #a08050;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
 
-/* 💖 CORAÇÃO ANCORADO JUNTO AO TEXTO */
-.heart {
-    width: 45px;
-    height: auto;
-    animation: pulse 1.2s infinite ease-in-out;
-    filter: drop-shadow(0 3px 0 var(--cor-borda));
-    flex-shrink: 0;
-}
+        .prato-sorteado {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--cor-texto);
+            word-break: break-word;
+        }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.18) rotate(5deg); }
-    100% { transform: scale(1); }
-}
+        .btn-sortear {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            background-color: var(--cor-botao);
+            color: var(--cor-borda);
+            border: 4px solid var(--cor-borda);
+            padding: 15px 25px;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0px 6px 0px var(--cor-sombra-botao);
+            position: relative;
+            transition: all 0.1s ease;
+            text-transform: uppercase;
+        }
 
-/* LAYOUT DOS BOTÕES */
-.botoes {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 25px;
-}
+        .btn-sortear:hover {
+            background-color: var(--cor-botao-hover);
+        }
 
-button {
-    font-family: 'VT323', monospace;
-    font-size: 22px;
-    color: var(--cor-texto);
-    border: 3px solid var(--cor-borda);
-    background: var(--cor-botao);
-    border-radius: 8px;
-    box-shadow:
-        inset -3px -3px 0 var(--cor-sombra-botao),
-        inset 3px 3px 0 #f2d29b,
-        0 5px 0 var(--cor-borda);
-    cursor: pointer;
-    padding: 8px 4px;
-    position: relative;
-    transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
-}
+        .btn-sortear:active {
+            box-shadow: 0px 2px 0px var(--cor-sombra-botao);
+            top: 4px;
+        }
 
-button:hover {
-    background: var(--cor-botao-hover);
-}
-
-button:active {
-    transform: translateY(4px);
-    box-shadow:
-        inset -3px -3px 0 var(--cor-sombra-botao),
-        inset 3px 3px 0 #f2d29b,
-        0 1px 0 var(--cor-borda);
-}
-
-/* JANELA DO SLOT MACHINE */
-.slot-window {
-    width: 100%;
-    max-width: 360px;
-    height: 90px;
-    overflow: hidden;
-    border: 4px solid var(--cor-borda);
-    border-radius: 8px;
-    background: #fffbe9;
-    margin: 0 auto 25px auto;
-    position: relative;
-    box-shadow:
-        inset 0 6px 12px rgba(0,0,0,0.15),
-        inset 0 -6px 12px rgba(0,0,0,0.15);
-}
-
-.slot-window::before {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; top: 50%;
-    height: 2px;
-    background: rgba(59, 47, 27, 0.08);
-    pointer-events: none;
-    z-index: 2;
-}
-
-.slot-track {
-    position: absolute;
-    width: 100%;
-    top: 0;
-}
-
-.slot-item {
-    height: 82px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
-    color: #8c7a65;
-    opacity: 0.4;
-    transition: opacity 0.2s, transform 0.2s;
-}
-
-.slot-item.active {
-    transform: scale(1.15);
-    opacity: 1;
-    color: var(--cor-texto);
-    font-weight: bold;
-}
-
-/* ÁREA DE RESULTADO */
-.resultado {
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.resultado-card {
-    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    background: #fdf1cb;
-    border: 3px dashed var(--cor-borda);
-    padding: 15px;
-    border-radius: 8px;
-    width: 100%;
-}
-
-@keyframes pop {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-.resultado-titulo {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    color: #bd1c1c;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.resultado-nome {
-    font-size: 32px;
-    color: var(--cor-texto);
-    margin: 5px 0 15px 0;
-}
-
-/* BOTÃO DE LINK ESTILIZADO */
-.btn-receita {
-    display: inline-block;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    text-decoration: none;
-    color: #fff;
-    background: #4a7c59;
-    border: 2px solid var(--cor-borda);
-    padding: 8px 18px;
-    border-radius: 6px;
-    box-shadow: 0 4px 0 var(--cor-borda);
-    transition: 0.1s;
-}
-
-.btn-receita:hover {
-    background: #568f67;
-}
-
-.btn-receita:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 var(--cor-borda);
-}
-
-/* Ajustes finos para telas muito pequenas */
-@media (max-width: 420px) {
-    h1 { font-size: 30px; }
-    .subtitulo { font-size: 20px; }
-    .heart { width: 35px; }
-    .titulo-wrapper { gap: 8px; }
-    button { font-size: 18px; }
-    .slot-item { font-size: 22px; }
-}
-</style>
+        /* Ajuste responsivo extra para telas bem pequenas */
+        @media (max-width: 360px) {
+            h1 { font-size: 14px; }
+            .prato-sorteado { font-size: 12px; }
+            .btn-sortear { font-size: 10px; }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-
-    <img src="logo.png" class="logo" alt="Logo">
-
-    <div class="titulo-wrapper">
-        <h1>Cardápio meu bem i eu</h1>
-        <img src="coracao.png" class="heart" alt="Coração">
-    </div>
+    <!-- Imagem da logo/coração -->
+    <img src="logo.png" alt="Coração Retrô" class="pixel-art" id="logo-img">
     
-    <!-- Novo Subtítulo -->
-    <div class="subtitulo">O que vamos cozinhar esse mês?</div>
+    <h1>Cardápio<br>Meu Bem i Eu</h1>
+    <p class="subtitle">O que vamos cozinhar hoje?</p>
 
-    <div class="botoes">
-        <button onclick="sortear('rapidas')">🍳 rápido</button>
-        <button onclick="sortear('banquete')">🍖 banquete</button>
-        <button onclick="sortear('sobremesa')">🍰 doce</button>
+    <div class="display-container">
+        <div class="tipo-refeicao" id="refeicao-tipo">Clique abaixo</div>
+        <div class="prato-sorteado" id="refeicao-nome">🤔 O que será?</div>
     </div>
 
-    <div class="slot-window">
-        <div class="slot-track" id="track"></div>
-    </div>
-
-    <div id="resultado" class="resultado"></div>
+    <button class="btn-sortear" id="btn-sortear">Sorteando...</button>
 </div>
 
+<!-- Elementos de áudio para os efeitos sonoros -->
+<audio id="som-click" src="click.mp3" preload="auto"></audio>
+<audio id="som-sucesso" src="success.mp3" preload="auto"></preload></audio>
+
 <script>
-const receitas = [
-    {nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
-    {nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
-    {nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
-    {nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
-    {nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
-    {nome:"Risoto de Alho-Poró",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
-    {nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
-    {nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
-    {nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
-];
+    // Banco de dados de refeições do casal
+    const cardapio = {
+        "Almoço / Jantar": [
+            "Strogonoff de Frango",
+            "Macarrão Carbonara",
+            "Hambúrguer Caseiro",
+            "Escondidinho de Carne Seca",
+            "Fricassê de Frango",
+            "Pizza Caseira",
+            "Arroz de Forno Cremoso",
+            "Panqueca de Carne Moída",
+            "Lasanha à Bolonhesa",
+            "Risoto de Alho Poró"
+        ],
+        "Café / Lanche": [
+            "Pão de Queijo de Frigideira",
+            "Bolo de Cenoura com Chocolate",
+            "Panqueca Americana com Mel",
+            "Misto Quente Especial",
+            "Waffle com Morango",
+            "Tapioca Recheada",
+            "Crepioca de Queijo"
+        ]
+    };
 
-let emAnimacao = false;
+    // Elementos da página
+    const btnSortear = document.getElementById('btn-sortear');
+    const txtTipo = document.getElementById('refeicao-tipo');
+    const txtNome = document.getElementById('refeicao-nome');
+    const somClick = document.getElementById('som-click');
+    const somSucesso = document.getElementById('som-sucesso');
+    const logoImg = document.getElementById('logo-img');
 
-// --- GERADOR DE SOM RETRO (Web Audio API) ---
-let audioCtx = null;
+    let rolando = false;
 
-function iniciarAudio() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Garante que o texto do botão inicialize correto
+    btnSortear.textContent = "Sortear Prato";
+
+    function sortear() {
+        if (rolando) return;
+        rolando = true;
+        btnSortear.textContent = "Escolhendo...";
+
+        // Seleciona uma categoria aleatória
+        const categorias = Object.keys(cardapio);
+        const categoriaSorteada = categorias[Math.floor(Math.random() * categorias.length)];
+        const pratos da Categoria = cardapio[categoriaSorteada];
+
+        let giros = 0;
+        const maxGiros = 12;
+
+        // Efeito de "roleta" embaralhando os pratos na tela
+        const intervalo = setInterval(() => {
+            const catAleatoria = categorias[Math.floor(Math.random() * categorias.length)];
+            const pratosAleatorios = cardapio[catAleatoria];
+            const pratoAleatorio = pratosAleatorios[Math.floor(Math.random() * pratosAleatorios.length)];
+            
+            txtTipo.textContent = catAleatoria;
+            txtNome.textContent = pratoAleatorio;
+            
+            // Toca o som de clique a cada troca rápida de prato
+            if(somClick) {
+                somClick.currentTime = 0;
+                somClick.play().catch(() => {});
+            }
+            
+            // Pequeno efeito visual de pulo no coração durante o giro
+            logoImg.style.transform = giros % 2 === 0 ? 'scale(1.1)' : 'scale(1)';
+
+            giros++;
+
+            if (giros >= maxGiros) {
+                clearInterval(intervalo);
+                
+                // Escolha definitiva do prato sorteado
+                const pratoFinal = pratos da Categoria[Math.floor(Math.random() * pratos da Categoria.length)];
+                
+                txtTipo.textContent = categoriaSorteada;
+                txtNome.textContent = pratoFinal;
+                btnSortear.textContent = "Sortear de Novo";
+                logoImg.style.transform = 'scale(1)';
+                
+                // Toca o som de sucesso quando para no prato final
+                if(somSucesso) {
+                    somSucesso.currentTime = 0;
+                    somSucesso.play().catch(() => {});
+                }
+
+                rolando = false;
+            }
+        }, 120);
     }
-}
 
-function tocarSomClique() {
-    iniciarAudio();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
-    
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.1);
-}
+    btnSortear.addEventListener('click', sortear);
 
-function tocarSomItem() {
-    iniciarAudio();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
-    
-    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.04);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.04);
-}
-
-function tocarSomVitoria() {
-    iniciarAudio();
-    const agora = audioCtx.currentTime;
-    
-    const notas = [523.25, 659.25, 783.99, 1046.50];
-    const tempos = [0, 0.08, 0.16, 0.24];
-    
-    notas.forEach((nota, idx) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(nota, agora + tempos[idx]);
-        
-        gain.gain.setValueAtTime(0.08, agora + tempos[idx]);
-        gain.gain.linearRampToValueAtTime(0, agora + tempos[idx] + 0.2);
-        
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(agora + tempos[idx]);
-        osc.stop(agora + tempos[idx] + 0.2);
-    });
-}
-
-// --- LÓGICA DO SORTEIO ---
-function sortear(cat){
-    if (emAnimacao) return;
-    emAnimacao = true;
-    
-    tocarSomClique();
-
-    const lista = receitas.filter(r=>r.cat===cat);
-    const track = document.getElementById("track");
-    const resultado = document.getElementById("resultado");
-
-    resultado.innerHTML = "";
-
-    let items = [];
-    for(let i=0; i<30; i++){
-        items.push(lista[Math.floor(Math.random()*lista.length)]);
+    // 🌟 ATIVAÇÃO DO APLICATIVO (SERVICE WORKER)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Aplicativo instalado com sucesso!', reg))
+                .catch(err => console.log('Erro ao configurar o aplicativo', err));
+        });
     }
-    
-    const vencedor = lista[Math.floor(Math.random()*lista.length)];
-    const posicaoVencedor = 26;
-    items[posicaoVencedor] = vencedor;
-
-    track.innerHTML = items.map(r=>`<div class="slot-item">${r.nome}</div>`).join("");
-    
-    track.style.transition = "none";
-    track.style.transform = "translateY(0px)";
-    
-    track.offsetHeight;
-
-    const itemHeight = 82;
-    const deslocamentoFinal = posicaoVencedor * itemHeight;
-    
-    track.style.transition = "transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
-    track.style.transform = `translateY(-${deslocamentoFinal}px)`;
-
-    let somIntervalo = 60; 
-    let tempoAcumulado = 0;
-    
-    function agendarProximoSom() {
-        if (tempoAcumulado > 3000) return;
-        
-        setTimeout(() => {
-            tocarSomItem();
-            somIntervalo *= 1.14;
-            tempoAcumulado += somIntervalo;
-            agendarProximoSom();
-        }, somIntervalo);
-    }
-    agendarProximoSom();
-
-    setTimeout(() => {
-        if(track.children[posicaoVencedor]) {
-            track.children[posicaoVencedor].classList.add("active");
-        }
-        
-        tocarSomVitoria();
-
-        resultado.innerHTML = `
-            <div class="resultado-card">
-                <span class="resultado-titulo">⭐ SORTEADO! ⭐</span>
-                <div class="resultado-nome">${vencedor.nome}</div>
-                <a href="${vencedor.url}" target="_blank" class="btn-receita" onclick="tocarSomClique()">Ver Receita</a>
-            </div>
-        `;
-        emAnimacao = false;
-    }, 3500);
-}
 </script>
 
 </body>
