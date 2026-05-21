@@ -6,6 +6,7 @@
 
 <title>Cardápio meu bem i eu</title>
 
+<!-- Fontes Retro complementares -->
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
@@ -58,58 +59,50 @@ body::before {
         0 20px 25px rgba(0,0,0,0.3);
     padding: 35px 25px;
     width: 100%;
-    max-width: 520px; /* Melhor tamanho para desktop e mobile */
+    max-width: 520px;
     text-align: center;
     position: relative;
-    overflow: hidden;
 }
 
-/* ✨ DECORAÇÕES LATERAIS */
-.decoracao-ramo {
-    position: absolute;
-    font-size: 24px;
-    user-select: none;
-    opacity: 0.8;
-}
-.dec-tl { top: 15px; left: 15px; }
-.dec-tr { top: 15px; right: 15px; }
-
-/* LOGO E ANIMAÇÕES */
-.logo-wrapper {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
+/* LOGO */
 .logo {
     width: 180px;
     height: auto;
     filter: drop-shadow(0 4px 0 var(--cor-borda));
-    display: block;
+    margin-bottom: 15px;
 }
 
-/* 💖 CORAÇÃO PULSANTE */
+/* ÁREA DO TÍTULO + CORAÇÃO ALINHADOS */
+.titulo-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 0 auto 25px auto;
+    position: relative;
+}
+
+h1 {
+    font-size: 38px;
+    color: var(--cor-texto);
+    margin: 0;
+    text-shadow: 1px 1px 0 #fff;
+    letter-spacing: 1px;
+}
+
+/* 💖 CORAÇÃO ANCORADO JUNTO AO TEXTO */
 .heart {
-    position: absolute;
-    right: -35px;
-    top: -10px;
-    width: 55px;
+    width: 45px;
+    height: auto;
     animation: pulse 1.2s infinite ease-in-out;
     filter: drop-shadow(0 3px 0 var(--cor-borda));
+    flex-shrink: 0;
 }
 
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.18) rotate(5deg); }
     100% { transform: scale(1); }
-}
-
-h1 {
-    font-size: 38px;
-    color: var(--cor-texto);
-    margin: 10px 0 25px 0;
-    text-shadow: 1px 1px 0 #fff;
-    letter-spacing: 1px;
 }
 
 /* LAYOUT DOS BOTÕES */
@@ -165,7 +158,6 @@ button:active {
         inset 0 -6px 12px rgba(0,0,0,0.15);
 }
 
-/* Linhas guias retro do slot */
 .slot-window::before {
     content: "";
     position: absolute;
@@ -183,7 +175,7 @@ button:active {
 }
 
 .slot-item {
-    height: 82px; /* Compensando bordas internas */
+    height: 82px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -193,7 +185,6 @@ button:active {
     transition: opacity 0.2s, transform 0.2s;
 }
 
-/* ITEM ATIVO SELECIONADO */
 .slot-item.active {
     transform: scale(1.15);
     opacity: 1;
@@ -264,8 +255,10 @@ button:active {
 }
 
 /* Ajustes finos para telas muito pequenas */
-@media (max-width: 400px) {
+@media (max-width: 420px) {
     h1 { font-size: 30px; }
+    .heart { width: 35px; }
+    .titulo-wrapper { gap: 8px; }
     button { font-size: 18px; }
     .slot-item { font-size: 22px; }
 }
@@ -275,15 +268,14 @@ button:active {
 <body>
 
 <div class="container">
-    <div class="decoracao-ramo dec-tl">🌿</div>
-    <div class="decoracao-ramo dec-tr">🌿</div>
 
-    <div class="logo-wrapper">
-        <img src="logo.png" class="logo" alt="Logo">
+    <img src="logo.png" class="logo" alt="Logo">
+
+    <!-- Nova estrutura unindo o título e o coração -->
+    <div class="titulo-wrapper">
+        <h1>Cardápio meu bem i eu</h1>
         <img src="coracao.png" class="heart" alt="Coração">
     </div>
-
-    <h1>Cardápio meu bem i eu</h1>
 
     <div class="botoes">
         <button onclick="sortear('rapidas')">🍳 rápido</button>
@@ -314,52 +306,42 @@ const receitas = [
 let emAnimacao = false;
 
 function sortear(cat){
-    if (emAnimacao) return; // Evita bugar se clicar múltiplas vezes seguidas
+    if (emAnimacao) return;
     emAnimacao = true;
 
     const lista = receitas.filter(r=>r.cat===cat);
     const track = document.getElementById("track");
     const resultado = document.getElementById("resultado");
 
-    resultado.innerHTML = ""; // Limpa resultado anterior
+    resultado.innerHTML = "";
 
-    // Criar uma lista longa misturada para o efeito de roleta girando
     let items = [];
     for(let i=0; i<30; i++){
         items.push(lista[Math.floor(Math.random()*lista.length)]);
     }
     
-    // Escolhe o vencedor final (será colocado na última parte do track)
     const vencedor = lista[Math.floor(Math.random()*lista.length)];
-    const posicaoVencedor = 26; // Index fixo onde vamos parar
+    const posicaoVencedor = 26;
     items[posicaoVencedor] = vencedor;
 
-    // Renderiza itens
     track.innerHTML = items.map(r=>`<div class="slot-item">${r.nome}</div>`).join("");
     
-    // Reset de estilos de animação do track
     track.style.transition = "none";
     track.style.transform = "translateY(0px)";
     
-    // Forçar reflow do browser para aplicar o reset
     track.offsetHeight;
 
-    // Executa a animação fluída controlada por CSS Transition (mais bonita e leve)
-    const itemHeight = 82; // Altura exata de cada item no CSS
+    const itemHeight = 82;
     const deslocamentoFinal = posicaoVencedor * itemHeight;
     
-    // Efeito suave de freio (cubic-bezier) simulando a roleta parando
     track.style.transition = "transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
     track.style.transform = `translateY(-${deslocamentoFinal}px)`;
 
-    // Quando o giro terminar
     setTimeout(() => {
-        // Destaca o item vencedor no slot
         if(track.children[posicaoVencedor]) {
             track.children[posicaoVencedor].classList.add("active");
         }
 
-        // Exibe o card bonito de resultado
         resultado.innerHTML = `
             <div class="resultado-card">
                 <span class="resultado-titulo">⭐ SORTEADO! ⭐</span>
