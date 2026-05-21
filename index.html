@@ -78,7 +78,7 @@ body::before {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    margin: 0 auto 25px auto;
+    margin: 0 auto 5px auto;
     position: relative;
 }
 
@@ -88,6 +88,14 @@ h1 {
     margin: 0;
     text-shadow: 1px 1px 0 #fff;
     letter-spacing: 1px;
+}
+
+/* SUBTÍTULO ADDED */
+.subtitulo {
+    font-size: 24px;
+    color: #5c4a33;
+    margin: 0 0 25px 0;
+    letter-spacing: 0.5px;
 }
 
 /* 💖 CORAÇÃO ANCORADO JUNTO AO TEXTO */
@@ -257,6 +265,7 @@ button:active {
 /* Ajustes finos para telas muito pequenas */
 @media (max-width: 420px) {
     h1 { font-size: 30px; }
+    .subtitulo { font-size: 20px; }
     .heart { width: 35px; }
     .titulo-wrapper { gap: 8px; }
     button { font-size: 18px; }
@@ -271,11 +280,13 @@ button:active {
 
     <img src="logo.png" class="logo" alt="Logo">
 
-    <!-- Nova estrutura unindo o título e o coração -->
     <div class="titulo-wrapper">
         <h1>Cardápio meu bem i eu</h1>
         <img src="coracao.png" class="heart" alt="Coração">
     </div>
+    
+    <!-- Novo Subtítulo -->
+    <div class="subtitulo">O que vamos cozinhar esse mês?</div>
 
     <div class="botoes">
         <button onclick="sortear('rapidas')">🍳 rápido</button>
@@ -305,9 +316,80 @@ const receitas = [
 
 let emAnimacao = false;
 
+// --- GERADOR DE SOM RETRO (Web Audio API) ---
+let audioCtx = null;
+
+function iniciarAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+}
+
+function tocarSomClique() {
+    iniciarAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
+    
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+}
+
+function tocarSomItem() {
+    iniciarAudio();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+    
+    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.04);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.04);
+}
+
+function tocarSomVitoria() {
+    iniciarAudio();
+    const agora = audioCtx.currentTime;
+    
+    const notas = [523.25, 659.25, 783.99, 1046.50];
+    const tempos = [0, 0.08, 0.16, 0.24];
+    
+    notas.forEach((nota, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(nota, agora + tempos[idx]);
+        
+        gain.gain.setValueAtTime(0.08, agora + tempos[idx]);
+        gain.gain.linearRampToValueAtTime(0, agora + tempos[idx] + 0.2);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(agora + tempos[idx]);
+        osc.stop(agora + tempos[idx] + 0.2);
+    });
+}
+
+// --- LÓGICA DO SORTEIO ---
 function sortear(cat){
     if (emAnimacao) return;
     emAnimacao = true;
+    
+    tocarSomClique();
 
     const lista = receitas.filter(r=>r.cat===cat);
     const track = document.getElementById("track");
@@ -337,16 +419,33 @@ function sortear(cat){
     track.style.transition = "transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
     track.style.transform = `translateY(-${deslocamentoFinal}px)`;
 
+    let somIntervalo = 60; 
+    let tempoAcumulado = 0;
+    
+    function agendarProximoSom() {
+        if (tempoAcumulado > 3000) return;
+        
+        setTimeout(() => {
+            tocarSomItem();
+            somIntervalo *= 1.14;
+            tempoAcumulado += somIntervalo;
+            agendarProximoSom();
+        }, somIntervalo);
+    }
+    agendarProximoSom();
+
     setTimeout(() => {
         if(track.children[posicaoVencedor]) {
             track.children[posicaoVencedor].classList.add("active");
         }
+        
+        tocarSomVitoria();
 
         resultado.innerHTML = `
             <div class="resultado-card">
                 <span class="resultado-titulo">⭐ SORTEADO! ⭐</span>
                 <div class="resultado-nome">${vencedor.nome}</div>
-                <a href="${vencedor.url}" target="_blank" class="btn-receita">Ver Receita</a>
+                <a href="${vencedor.url}" target="_blank" class="btn-receita" onclick="tocarSomClique()">Ver Receita</a>
             </div>
         `;
         emAnimacao = false;
