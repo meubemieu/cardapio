@@ -6,178 +6,268 @@
 
 <title>Cardápio meu bem i eu</title>
 
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
+:root {
+    --cor-fundo: #fff6db;
+    --cor-borda: #3b2f1c;
+    --cor-botao: #c8a46b;
+    --cor-botao-hover: #dfba82;
+    --cor-sombra-botao: #8c6f3f;
+    --cor-texto: #2c2013;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    margin:0;
-    font-family:'VT323', monospace;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+    margin: 0;
+    font-family: 'VT323', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #1a120b;
 }
 
-/* FUNDO */
+/* FUNDO BORRADO */
 body::before {
-    content:"";
-    position:fixed;
-    width:100%;
-    height:100%;
+    content: "";
+    position: fixed;
+    inset: 0;
     background:
-        linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
         url("logo.png") center/cover no-repeat;
-    filter: blur(6px);
+    filter: blur(8px);
     transform: scale(1.05);
-    z-index:-1;
+    z-index: -1;
 }
 
-/* CONTAINER */
+/* CONTAINER PRINCIPAL */
 .container {
-    background:#fff6db;
-    border:4px solid #3b2f1c;
-    border-radius:10px;
+    background: var(--cor-fundo);
+    border: 4px solid var(--cor-borda);
+    border-radius: 12px;
     box-shadow:
         inset -4px -4px 0 #d8c79a,
         inset 4px 4px 0 #fff8e5,
-        0 10px 0 #2a1f12;
-    padding:25px;
-    width:720px;
-    text-align:center;
-    position:relative;
+        0 12px 0 rgba(0,0,0,0.4),
+        0 20px 25px rgba(0,0,0,0.3);
+    padding: 35px 25px;
+    width: 100%;
+    max-width: 520px; /* Melhor tamanho para desktop e mobile */
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
-/* ✨ DECORAÇÃO */
-.container::before {
-    content:"🌿";
-    position:absolute;
-    top:10px;
-    left:10px;
-    font-size:24px;
+/* ✨ DECORAÇÕES LATERAIS */
+.decoracao-ramo {
+    position: absolute;
+    font-size: 24px;
+    user-select: none;
+    opacity: 0.8;
+}
+.dec-tl { top: 15px; left: 15px; }
+.dec-tr { top: 15px; right: 15px; }
+
+/* LOGO E ANIMAÇÕES */
+.logo-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
 }
 
-.container::after {
-    content:"🌿";
-    position:absolute;
-    bottom:10px;
-    right:10px;
-    font-size:24px;
-}
-
-/* LOGO */
 .logo {
-    width:240px;
-    filter: drop-shadow(0 4px 0 #3b2f1c);
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 4px 0 var(--cor-borda));
+    display: block;
 }
 
-/* 💖 CORAÇÃO */
+/* 💖 CORAÇÃO PULSANTE */
 .heart {
-    position:absolute;
-    left:-45px;
-    top:15px;
-    width:80px;
-    animation:pulse 1s infinite;
-    filter: drop-shadow(0 3px 0 #3b2f1c);
+    position: absolute;
+    right: -35px;
+    top: -10px;
+    width: 55px;
+    animation: pulse 1.2s infinite ease-in-out;
+    filter: drop-shadow(0 3px 0 var(--cor-borda));
 }
 
 @keyframes pulse {
-    0% { transform:scale(1); }
-    50% { transform:scale(1.25); }
-    100% { transform:scale(1); }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.18) rotate(5deg); }
+    100% { transform: scale(1); }
 }
 
-/* BOTÕES */
+h1 {
+    font-size: 38px;
+    color: var(--cor-texto);
+    margin: 10px 0 25px 0;
+    text-shadow: 1px 1px 0 #fff;
+    letter-spacing: 1px;
+}
+
+/* LAYOUT DOS BOTÕES */
 .botoes {
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:12px;
-    margin-top:20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 25px;
 }
 
 button {
-    font-family:inherit;
-    font-size:20px;
-    border:3px solid #3b2f1c;
-    background:#c8a46b;
-    border-radius:8px;
+    font-family: 'VT323', monospace;
+    font-size: 22px;
+    color: var(--cor-texto);
+    border: 3px solid var(--cor-borda);
+    background: var(--cor-botao);
+    border-radius: 8px;
     box-shadow:
-        inset -3px -3px 0 #8c6f3f,
+        inset -3px -3px 0 var(--cor-sombra-botao),
         inset 3px 3px 0 #f2d29b,
-        0 4px 0 #3b2f1c;
-    cursor:pointer;
-    padding:10px;
-    transition:0.2s;
+        0 5px 0 var(--cor-borda);
+    cursor: pointer;
+    padding: 8px 4px;
+    position: relative;
+    transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
 }
 
 button:hover {
-    transform:scale(1.05);
-    filter: brightness(1.05);
+    background: var(--cor-botao-hover);
 }
 
 button:active {
-    transform:translateY(4px);
-}
-
-/* SLOT */
-.slot-window {
-    width:300px;
-    height:80px;
-    overflow:hidden;
-    border:4px solid #3b2f1c;
-    border-radius:10px;
-    background:#fff8dc;
-    margin:25px auto;
-    position:relative;
+    transform: translateY(4px);
     box-shadow:
-        inset 0 8px 15px rgba(0,0,0,0.25),
-        inset 0 -8px 15px rgba(0,0,0,0.25);
+        inset -3px -3px 0 var(--cor-sombra-botao),
+        inset 3px 3px 0 #f2d29b,
+        0 1px 0 var(--cor-borda);
 }
 
-/* BRILHO */
-.slot-window::after {
-    content:"";
-    position:absolute;
-    inset:0;
-    background: linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.25),
-        transparent,
-        rgba(0,0,0,0.2)
-    );
+/* JANELA DO SLOT MACHINE */
+.slot-window {
+    width: 100%;
+    max-width: 360px;
+    height: 90px;
+    overflow: hidden;
+    border: 4px solid var(--cor-borda);
+    border-radius: 8px;
+    background: #fffbe9;
+    margin: 0 auto 25px auto;
+    position: relative;
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.15),
+        inset 0 -6px 12px rgba(0,0,0,0.15);
+}
+
+/* Linhas guias retro do slot */
+.slot-window::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: rgba(59, 47, 27, 0.08);
+    pointer-events: none;
+    z-index: 2;
 }
 
 .slot-track {
-    position:absolute;
-    width:100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
 }
 
 .slot-item {
-    height:80px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    opacity:0.6;
+    height: 82px; /* Compensando bordas internas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    color: #8c7a65;
+    opacity: 0.4;
+    transition: opacity 0.2s, transform 0.2s;
 }
 
-/* ITEM FINAL */
+/* ITEM ATIVO SELECIONADO */
 .slot-item.active {
-    transform: scale(1.2);
-    opacity:1;
-    color:#2c2013;
-    text-shadow: 0 0 6px rgba(255,255,255,0.9);
+    transform: scale(1.15);
+    opacity: 1;
+    color: var(--cor-texto);
+    font-weight: bold;
 }
 
-/* RESULTADO */
+/* ÁREA DE RESULTADO */
 .resultado {
-    margin-top:15px;
-    font-size:20px;
-    animation:pop 0.4s ease;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.resultado-card {
+    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    background: #fdf1cb;
+    border: 3px dashed var(--cor-borda);
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
 }
 
 @keyframes pop {
-    0% { transform:scale(0.8); opacity:0; }
-    100% { transform:scale(1); }
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.resultado-titulo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #bd1c1c;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.resultado-nome {
+    font-size: 32px;
+    color: var(--cor-texto);
+    margin: 5px 0 15px 0;
+}
+
+/* BOTÃO DE LINK ESTILIZADO */
+.btn-receita {
+    display: inline-block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background: #4a7c59;
+    border: 2px solid var(--cor-borda);
+    padding: 8px 18px;
+    border-radius: 6px;
+    box-shadow: 0 4px 0 var(--cor-borda);
+    transition: 0.1s;
+}
+
+.btn-receita:hover {
+    background: #568f67;
+}
+
+.btn-receita:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 var(--cor-borda);
+}
+
+/* Ajustes finos para telas muito pequenas */
+@media (max-width: 400px) {
+    h1 { font-size: 30px; }
+    button { font-size: 18px; }
+    .slot-item { font-size: 22px; }
 }
 </style>
 </head>
@@ -185,85 +275,101 @@ button:active {
 <body>
 
 <div class="container">
+    <div class="decoracao-ramo dec-tl">🌿</div>
+    <div class="decoracao-ramo dec-tr">🌿</div>
 
-<img src="logo.png" class="logo">
-<img src="coracao.png" class="heart">
+    <div class="logo-wrapper">
+        <img src="logo.png" class="logo" alt="Logo">
+        <img src="coracao.png" class="heart" alt="Coração">
+    </div>
 
-<h1>Cardápio meu bem i eu</h1>
+    <h1>Cardápio meu bem i eu</h1>
 
-<div class="botoes">
-<button onclick="sortear('rapidas')">🍳 rápido</button>
-<button onclick="sortear('banquete')">🍖 banquete</button>
-<button onclick="sortear('sobremesa')">🍰 doce</button>
-</div>
+    <div class="botoes">
+        <button onclick="sortear('rapidas')">🍳 rápido</button>
+        <button onclick="sortear('banquete')">🍖 banquete</button>
+        <button onclick="sortear('sobremesa')">🍰 doce</button>
+    </div>
 
-<div class="slot-window">
-    <div class="slot-track" id="track"></div>
-</div>
+    <div class="slot-window">
+        <div class="slot-track" id="track"></div>
+    </div>
 
-<div id="resultado" class="resultado"></div>
-
+    <div id="resultado" class="resultado"></div>
 </div>
 
 <script>
-
 const receitas = [
-{nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
-{nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
-{nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
-
-{nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
-{nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
-{nome:"Risoto de Alho-Poró",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
-
-{nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
-{nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
-{nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
+    {nome:"Shakshuka",cat:"rapidas",url:"https://www.lecreuset.com.br/shakshuka/SKI_084.html"},
+    {nome:"Camembert Folhado",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/queijo-camembert-folhado-com-mel-e-nozes/LCO-21045.html"},
+    {nome:"Creme de Abóbora",cat:"rapidas",url:"https://www.lecreuset.com.br/entradas-e-acompanhamentos/creme-de-abobora-com-gengibre/LCO-21016.html"},
+    {nome:"Boeuf Bourguignon",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/boeuf-bourguignon/LCO-21114.html"},
+    {nome:"Ragu de Costela",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/ragu-de-costela-com-polenta-cremosa/LCO-21043.html"},
+    {nome:"Risoto de Alho-Poró",cat:"banquete",url:"https://www.lecreuset.com.br/refeicoes-principais/risoto-de-alho-poro-e-parmesao/LCO-21043.html"},
+    {nome:"Bolo de Cenoura",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/bolo-de-cenoura-com-brigadeiro/LCO-21044.html"},
+    {nome:"Tarte Tatin",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/tarte-tatin-de-maca/LCO-21051.html"},
+    {nome:"Grand Gateau",cat:"sobremesa",url:"https://www.lecreuset.com.br/sobremesas/grand-gateau-de-chocolate/LCO-21011.html"}
 ];
 
+let emAnimacao = false;
+
 function sortear(cat){
+    if (emAnimacao) return; // Evita bugar se clicar múltiplas vezes seguidas
+    emAnimacao = true;
 
     const lista = receitas.filter(r=>r.cat===cat);
     const track = document.getElementById("track");
     const resultado = document.getElementById("resultado");
 
-    let items=[];
-    for(let i=0;i<25;i++){
+    resultado.innerHTML = ""; // Limpa resultado anterior
+
+    // Criar uma lista longa misturada para o efeito de roleta girando
+    let items = [];
+    for(let i=0; i<30; i++){
         items.push(lista[Math.floor(Math.random()*lista.length)]);
     }
+    
+    // Escolhe o vencedor final (será colocado na última parte do track)
+    const vencedor = lista[Math.floor(Math.random()*lista.length)];
+    const posicaoVencedor = 26; // Index fixo onde vamos parar
+    items[posicaoVencedor] = vencedor;
 
+    // Renderiza itens
     track.innerHTML = items.map(r=>`<div class="slot-item">${r.nome}</div>`).join("");
+    
+    // Reset de estilos de animação do track
+    track.style.transition = "none";
+    track.style.transform = "translateY(0px)";
+    
+    // Forçar reflow do browser para aplicar o reset
+    track.offsetHeight;
 
-    let pos=0;
-    let speed=30;
+    // Executa a animação fluída controlada por CSS Transition (mais bonita e leve)
+    const itemHeight = 82; // Altura exata de cada item no CSS
+    const deslocamentoFinal = posicaoVencedor * itemHeight;
+    
+    // Efeito suave de freio (cubic-bezier) simulando a roleta parando
+    track.style.transition = "transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
+    track.style.transform = `translateY(-${deslocamentoFinal}px)`;
 
-    const anim=setInterval(()=>{
-        pos+=speed;
-        track.style.transform=`translateY(-${pos}px)`;
-        speed*=0.97;
-
-        if(speed<1){
-            clearInterval(anim);
-
-            const final=lista[Math.floor(Math.random()*lista.length)];
-            const index=items.findIndex(i=>i.nome===final.nome);
-
-            track.style.transition="transform 0.5s ease-out";
-            track.style.transform=`translateY(-${index*80}px)`;
-
-            track.children[index].classList.add("active");
-
-            setTimeout(()=>{
-                resultado.innerHTML=`
-                ⭐ ${final.nome}<br><br>
-                <a href="${final.url}" target="_blank">ver receita</a>
-                `;
-            },500);
+    // Quando o giro terminar
+    setTimeout(() => {
+        // Destaca o item vencedor no slot
+        if(track.children[posicaoVencedor]) {
+            track.children[posicaoVencedor].classList.add("active");
         }
 
-    },16);
+        // Exibe o card bonito de resultado
+        resultado.innerHTML = `
+            <div class="resultado-card">
+                <span class="resultado-titulo">⭐ SORTEADO! ⭐</span>
+                <div class="resultado-nome">${vencedor.nome}</div>
+                <a href="${vencedor.url}" target="_blank" class="btn-receita">Ver Receita</a>
+            </div>
+        `;
+        emAnimacao = false;
+    }, 3500);
 }
-
 </script>
 
 </body>
