@@ -451,7 +451,18 @@ function sortear(cat){
         emAnimacao = false;
     }, 3500);
 }
+    
+// 🌟 ATIVAÇÃO DO APLICATIVO NO CELULAR (SERVICE WORKER)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Aplicativo pronto para uso!', reg))
+            .catch(err => console.log('Erro ao configurar o aplicativo', err));
+    });
+}
 </script>
 
 </body>
+</html>
+    
 </html>
