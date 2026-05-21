@@ -6,13 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- IMPEDE QUE O CELULAR INVERTA AS CORES NO MODO ESCURO -->
     <meta name="color-scheme" content="light only">
 
     <title>Cardápio meu bem i eu</title>
 
-    <!-- Fontes Retro complementares -->
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght=500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
     :root {
@@ -37,7 +35,7 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        padding: 20px;
+        padding: 15px;
         background-color: #1a120b;
     }
 
@@ -64,19 +62,19 @@
             inset 4px 4px 0 #fff8e5,
             0 12px 0 rgba(0,0,0,0.4),
             0 20px 25px rgba(0,0,0,0.3);
-        padding: 35px 25px;
+        padding: 25px 20px;
         width: 100%;
-        max-width: 520px;
+        max-width: 480px;
         text-align: center;
         position: relative;
     }
 
     /* LOGO */
     .logo {
-        width: 180px;
+        width: 140px; /* Reduzido levemente para equilibrar o topo */
         height: auto;
         filter: drop-shadow(0 4px 0 var(--cor-borda));
-        margin-bottom: 15px;
+        margin-bottom: 10px;
     }
 
     /* ÁREA DO TÍTULO + CORAÇÃO ALINHADOS */
@@ -84,39 +82,41 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 15px;
+        gap: 10px;
         margin: 0 auto 5px auto;
         position: relative;
+        max-width: 100%;
     }
 
     h1 {
-        font-size: 38px;
+        font-size: 28px; /* Diminuído para caber melhor na linha sem quebras bruscas */
         color: var(--cor-texto);
         margin: 0;
         text-shadow: 1px 1px 0 #fff;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
     }
 
     /* SUBTÍTULO ADDED */
     .subtitulo {
-        font-size: 24px;
+        font-size: 20px; /* Reduzido de 24px */
         color: #5c4a33;
-        margin: 0 0 25px 0;
+        margin: 0 0 20px 0;
         letter-spacing: 0.5px;
     }
 
     /* 💖 CORAÇÃO ANCORADO JUNTO AO TEXTO */
     .heart {
-        width: 45px;
+        width: 32px; /* Reduzido de 45px para acompanhar o novo tamanho do texto */
         height: auto;
         animation: pulse 1.2s infinite ease-in-out;
-        filter: drop-shadow(0 3px 0 var(--cor-borda));
+        filter: drop-shadow(0 2px 0 var(--cor-borda));
         flex-shrink: 0;
     }
 
     @keyframes pulse {
         0% { transform: scale(1); }
-        50% { transform: scale(1.18) rotate(5deg); }
+        50% { transform: scale(1.15) rotate(5deg); }
         100% { transform: scale(1); }
     }
 
@@ -124,13 +124,13 @@
     .botoes {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 25px;
+        gap: 8px;
+        margin-bottom: 20px;
     }
 
     button {
         font-family: 'VT323', monospace;
-        font-size: 22px;
+        font-size: 19px; /* Reduzido de 22px para evitar quebras nos emojis */
         color: var(--cor-texto);
         border: 3px solid var(--cor-borda);
         background: var(--cor-botao);
@@ -138,9 +138,9 @@
         box-shadow:
             inset -3px -3px 0 var(--cor-sombra-botao),
             inset 3px 3px 0 #f2d29b,
-            0 5px 0 var(--cor-borda);
+            0 4px 0 var(--cor-borda);
         cursor: pointer;
-        padding: 8px 4px;
+        padding: 6px 2px;
         position: relative;
         transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
     }
@@ -154,23 +154,23 @@
         box-shadow:
             inset -3px -3px 0 var(--cor-sombra-botao),
             inset 3px 3px 0 #f2d29b,
-            0 1px 0 var(--cor-borda);
+            0 0px 0 var(--cor-borda);
     }
 
     /* JANELA DO SLOT MACHINE */
     .slot-window {
         width: 100%;
         max-width: 360px;
-        height: 90px;
+        height: 75px; /* Reduzido de 90px */
         overflow: hidden;
         border: 4px solid var(--cor-borda);
         border-radius: 8px;
         background: #fffbe9;
-        margin: 0 auto 25px auto;
+        margin: 0 auto 20px auto;
         position: relative;
         box-shadow:
-            inset 0 6px 12px rgba(0,0,0,0.15),
-            inset 0 -6px 12px rgba(0,0,0,0.15);
+            inset 0 4px 8px rgba(0,0,0,0.15),
+            inset 0 -4px 8px rgba(0,0,0,0.15);
     }
 
     .slot-window::before {
@@ -190,18 +190,19 @@
     }
 
     .slot-item {
-        height: 82px;
+        height: 67px; /* Ajustado proporcionalmente à nova altura da janela */
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 26px;
+        font-size: 22px; /* Reduzido de 26px */
         color: #8c7a65;
         opacity: 0.4;
+        padding: 0 10px;
         transition: opacity 0.2s, transform 0.2s;
     }
 
     .slot-item.active {
-        transform: scale(1.15);
+        transform: scale(1.1);
         opacity: 1;
         color: var(--cor-texto);
         font-weight: bold;
@@ -209,7 +210,7 @@
 
     /* ÁREA DE RESULTADO */
     .resultado {
-        min-height: 120px;
+        min-height: 100px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -220,7 +221,7 @@
         animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         background: #fdf1cb;
         border: 3px dashed var(--cor-borda);
-        padding: 15px;
+        padding: 12px;
         border-radius: 8px;
         width: 100%;
     }
@@ -232,16 +233,17 @@
 
     .resultado-titulo {
         font-family: 'Press Start 2P', monospace;
-        font-size: 11px;
+        font-size: 10px;
         color: #bd1c1c;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         display: block;
     }
 
-    .resultado-nome {
-        font-size: 32px;
+    .resultado-name {
+        font-size: 26px; /* Reduzido de 32px para não estourar a caixa em nomes grandes */
         color: var(--cor-texto);
-        margin: 5px 0 15px 0;
+        margin: 5px 0 12px 0;
+        line-height: 1.2;
     }
 
     /* BOTÃO DE LINK ESTILIZADO */
@@ -249,14 +251,14 @@
         display: inline-block;
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 13px;
         text-decoration: none;
         color: #fff;
         background: #4a7c59;
         border: 2px solid var(--cor-borda);
-        padding: 8px 18px;
+        padding: 6px 16px;
         border-radius: 6px;
-        box-shadow: 0 4px 0 var(--cor-borda);
+        box-shadow: 0 3px 0 var(--cor-borda);
         transition: 0.1s;
     }
 
@@ -265,18 +267,18 @@
     }
 
     .btn-receita:active {
-        transform: translateY(3px);
+        transform: translateY(2px);
         box-shadow: 0 1px 0 var(--cor-borda);
     }
 
     /* Ajustes finos para telas muito pequenas */
-    @media (max-width: 420px) {
-        h1 { font-size: 30px; }
-        .subtitulo { font-size: 20px; }
-        .heart { width: 35px; }
-        .titulo-wrapper { gap: 8px; }
-        button { font-size: 18px; }
-        .slot-item { font-size: 22px; }
+    @media (max-width: 380px) {
+        h1 { font-size: 24px; }
+        .subtitulo { font-size: 18px; }
+        .heart { width: 26px; }
+        button { font-size: 16px; }
+        .slot-item { font-size: 19px; }
+        .resultado-name { font-size: 22px; }
     }
     </style>
 </head>
@@ -292,7 +294,6 @@
         <img src="coracao.png" class="heart" alt="Coração">
     </div>
     
-    <!-- Novo Subtítulo -->
     <div class="subtitulo">O que vamos cozinhar esse mês?</div>
 
     <div class="botoes">
@@ -324,7 +325,6 @@ const receitas = [
 let emAnimacao = false;
 let audioCtx = null;
 
-// Inicializa a roleta com um texto padrão assim que a página carrega
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("track").innerHTML = '<div class="slot-item active">???</div>';
 });
@@ -422,7 +422,7 @@ function sortear(cat){
     
     track.offsetHeight;
 
-    const itemHeight = 82;
+    const itemHeight = 67; // Atualizado para bater com a nova altura css
     const deslocamentoFinal = posicaoVencedor * itemHeight;
     
     track.style.transition = "transform 3.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
@@ -461,7 +461,6 @@ function sortear(cat){
     }, 3500);
 }
 
-// ATIVAÇÃO DO APLICATIVO COM ATUALIZAÇÃO FORÇADA DE VERSÃO
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
